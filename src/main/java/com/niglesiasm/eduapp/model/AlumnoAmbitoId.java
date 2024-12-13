@@ -1,4 +1,16 @@
 package com.niglesiasm.eduapp.model;
 
-public class AlumnoAmbitoId {
+
+import lombok.*;
+
+import java.io.Serializable;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+public class AlumnoAmbitoId implements Serializable {
+    private Integer idAlumno;
+    private Integer idAmbito;
 }

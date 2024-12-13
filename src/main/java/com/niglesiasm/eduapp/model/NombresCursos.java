@@ -5,30 +5,30 @@ import jakarta.persistence.Converter;
 import lombok.Getter;
 
 @Getter
-public enum NombreCurso {
+public enum NombresCursos {
     ESO1(1, "1º ESO"), ESO2(2, "2º ESO"), ESO3(3, "3º ESO"), ESO4(4, "4º ESO");
 
     private int id;
     private String nombre;
 
-    NombreCurso(int id, String nombre) {
+    NombresCursos(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    public static NombreCurso fromId(int id) {
-        for (NombreCurso nombreCurso : values()) {
-            if (nombreCurso.id == id) {
-                return nombreCurso;
+    public static NombresCursos fromId(int id) {
+        for (NombresCursos nombresCursos : values()) {
+            if (nombresCursos.id == id) {
+                return nombresCursos;
             }
         }
         throw new IllegalArgumentException("Invalid Rol id: " + id);
     }
 
-    public static NombreCurso fromName(String name) {
-        for (NombreCurso nombreCurso : values()) {
-            if (nombreCurso.nombre.equalsIgnoreCase(name)) {
-                return nombreCurso;
+    public static NombresCursos fromName(String name) {
+        for (NombresCursos nombresCursos : values()) {
+            if (nombresCursos.nombre.equalsIgnoreCase(name)) {
+                return nombresCursos;
             }
         }
         throw new IllegalArgumentException("Invalid nombreCurso name: " + name);
@@ -36,15 +36,15 @@ public enum NombreCurso {
 
     // Converter para JPA
     @Converter(autoApply = true)
-    public static class NombreCursoConverter implements AttributeConverter<NombreCurso, Integer> {
+    public static class NombreCursoConverter implements AttributeConverter<NombresCursos, Integer> {
         @Override
-        public Integer convertToDatabaseColumn(NombreCurso nombreCurso) {
-            return nombreCurso != null ? nombreCurso.getId() : null;
+        public Integer convertToDatabaseColumn(NombresCursos nombresCursos) {
+            return nombresCursos != null ? nombresCursos.getId() : null;
         }
 
         @Override
-        public NombreCurso convertToEntityAttribute(Integer id) {
-            return id != null ? NombreCurso.fromId(id) : null;
+        public NombresCursos convertToEntityAttribute(Integer id) {
+            return id != null ? NombresCursos.fromId(id) : null;
         }
     }
 }

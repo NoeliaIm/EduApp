@@ -1,64 +1,84 @@
-package com.niglesiasm.eduapp.model;
+package com.niglesiasm.eduapp.acceso;
 
+import com.niglesiasm.eduapp.service.acceso.TokenService;
+import io.jsonwebtoken.Jwts;
+
+
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.jwt.BadJwtException;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.KeyFactory;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
-
-
 @Configuration
+@EnableWebSecurity
+@Log4j2
 public class SecurityConfig {
 
+    @Autowired
+    private TokenService tokenService;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // Deshabilita CSRF para APIs REST
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Permitir acceso público para login y registro
-                        .anyRequest().authenticated() // Requerir autenticación para el resto
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .jwt(jwt -> jwt
+                                .decoder(jwtDecoder())
+                        )
                 );
 
         return http.build();
     }
 
-
     @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        // Si necesitas mapear roles personalizados desde los claims del JWT, puedes configurarlo aquí
-        return converter;
-    }
+    public JwtDecoder jwtDecoder() {
+        return token -> {
+            try {
 
+                // Logging de token
+                log.info("Token recibido: {}" ,token);
 
-    @Bean
-    public JwtDecoder jwtDecoder() throws Exception {
-        // Leer la clave pública desde el archivo public-key.pem
-        String publicKeyPEM = new String(Files.readAllBytes(Paths.get("src/main/resources/public-key.pem")))
-                .replace("-----BEGIN PUBLIC KEY-----", "")
-                .replace("-----END PUBLIC KEY-----", "")
-                .replaceAll("\\s+", ""); // Elimina saltos de línea y espacios
+                var claims = Jwts.parserBuilder()
+                        .setSigningKey(tokenService.getSecretKey())
+                        .build()
+                        .parseClaimsJws(token)
+                        .getBody();
 
-        // Convertir la clave pública a un objeto RSAPublicKey
-        byte[] decoded = Base64.getDecoder().decode(publicKeyPEM);
-        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decoded);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        RSAPublicKey publicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
+                // Logging de claims
+                log.info("Claims: {}" ,claims);
 
-        // Crear el decodificador JWT
-        return NimbusJwtDecoder.withPublicKey(publicKey).build();
+                return Jwt.withTokenValue(token)
+                        .headers(h -> {
+                            h.put("alg", "RS256");
+                            h.put("typ", "JWT");
+                        })
+                        .subject(claims.getSubject())
+                        .issuedAt(claims.getIssuedAt().toInstant())
+                        .expiresAt(claims.getExpiration().toInstant())
+                        .claim("id_persona", claims.get("id_persona"))
+                        .claim("nombre", claims.get("nombre"))
+                        .claim("apellido", claims.get("apellido"))
+                        .claim("roles", claims.get("roles")) // Incluir roles
+                        .build();
+            } catch (Exception e) {
+                // Logging de errores
+                log.error("Error en decodificación de token: {}" ,e.getMessage());
+                throw new BadJwtException("Token inválido");
+            }
+        };
     }
 }

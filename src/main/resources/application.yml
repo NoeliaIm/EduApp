@@ -1,1 +1,39 @@
-spring.application.name=EduApp
+spring:
+  boot:
+    condition:
+      report:
+        enabled: false
+  datasource:
+    url: ${URL_DB}
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: ${PUBLIC_KEY_PATH}
+          issuer-uri: http://localhost:8080/
+          token:
+            secret-key: secret
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_SMTP_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+logging:
+  level:
+    org.springframework.boot.context.config: TRACE
