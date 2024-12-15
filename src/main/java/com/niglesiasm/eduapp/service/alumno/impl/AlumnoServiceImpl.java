@@ -2,9 +2,7 @@ package com.niglesiasm.eduapp.service.alumno.impl;
 
 import com.niglesiasm.eduapp.model.Alumno;
 import com.niglesiasm.eduapp.repository.alumno.AlumnoDao;
-import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
 import com.niglesiasm.eduapp.service.alumno.AlumnoService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +21,14 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public List<Alumno> findAll() {
-        return List.of();
+    public List<Alumno> getAlumnosAll() {
+        return alumnoDao.findAll();
     }
 
     @Override
     public Optional<Alumno> findById(Integer id) {
-        Alumno alumno = alumnoDao.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Alumno no encontrado"));
-        AlumnoDTO.fromEntity(alumno);
+        return alumnoDao.findById(id);
 
-        return Optional.of(alumno);
     }
 
     @Override

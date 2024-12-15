@@ -4,7 +4,9 @@ import com.niglesiasm.eduapp.model.Asignatura;
 import com.niglesiasm.eduapp.service.asignatura.AsignaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/asignaturas")
@@ -28,11 +30,6 @@ public class AsignaturaController {
         return asignaturaService.save(asignatura);
     }
 
-    @PutMapping("/{id}")
-    public Asignatura update(@PathVariable Integer id, @RequestBody Asignatura asignatura) {
-        asignatura.setId(id);
-        return asignaturaService.save(asignatura);
-    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

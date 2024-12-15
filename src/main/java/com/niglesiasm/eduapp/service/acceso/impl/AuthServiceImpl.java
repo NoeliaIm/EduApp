@@ -1,7 +1,7 @@
 package com.niglesiasm.eduapp.service.acceso.impl;
 
 import com.niglesiasm.eduapp.model.Persona;
-import com.niglesiasm.eduapp.model.Rol;
+import com.niglesiasm.eduapp.model.enums.Rol;
 import com.niglesiasm.eduapp.repository.persona.PersonaDao;
 import com.niglesiasm.eduapp.service.acceso.AuthService;
 import com.niglesiasm.eduapp.service.acceso.TokenService;

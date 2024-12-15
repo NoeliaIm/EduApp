@@ -9,9 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "alumno_ambito", schema = "eduapp")
-public class AlumnoAmbito {
+@Table(name = "alumno_asignatura", schema = "eduapp")
+public class AlumnoAsignatura {
     @EmbeddedId
-    private AlumnoAmbitoId id;
+    private AlumnoAsignaturaId id;
 
 }

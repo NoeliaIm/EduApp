@@ -30,12 +30,6 @@ public class AlumnoAmbitoController {
         return alumnoAmbitoService.save(alumnoAmbito);
     }
 
-    @PutMapping("/{id}")
-    public AlumnoAmbito update(@PathVariable Integer id, @RequestBody AlumnoAmbito alumnoAmbito) {
-        alumnoAmbito.setIdAlumno(id);
-        return alumnoAmbitoService.save(alumnoAmbito);
-    }
-
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         alumnoAmbitoService.deleteById(id);

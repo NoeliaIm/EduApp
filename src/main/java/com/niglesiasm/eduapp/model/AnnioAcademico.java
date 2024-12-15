@@ -1,6 +1,5 @@
 package com.niglesiasm.eduapp.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,8 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -36,9 +33,5 @@ public class AnnioAcademico {
 
     @Column(name = "activo")
     private Boolean activo;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "idAnio")
-    private Set<Curso> cursos = new LinkedHashSet<>();
 
 }

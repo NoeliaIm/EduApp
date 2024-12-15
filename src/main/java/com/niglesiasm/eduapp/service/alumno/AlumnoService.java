@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface AlumnoService {
 
 
-    List<Alumno> findAll();
+    List<Alumno> getAlumnosAll();
 
     Optional<Alumno> findById(Integer id);
 

@@ -1,9 +1,9 @@
 package com.niglesiasm.eduapp.service.asignatura;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.niglesiasm.eduapp.repository.asignatura.AsignaturaDao;
 import com.niglesiasm.eduapp.model.Asignatura;
+import com.niglesiasm.eduapp.repository.asignatura.AsignaturaDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

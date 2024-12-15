@@ -4,7 +4,9 @@ import com.niglesiasm.eduapp.model.Nacionalidad;
 import com.niglesiasm.eduapp.service.nacionalidad.NacionalidadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/nacionalidads")
@@ -25,12 +27,6 @@ public class NacionalidadController {
 
     @PostMapping
     public Nacionalidad create(@RequestBody Nacionalidad nacionalidad) {
-        return nacionalidadService.save(nacionalidad);
-    }
-
-    @PutMapping("/{id}")
-    public Nacionalidad update(@PathVariable Integer id, @RequestBody Nacionalidad nacionalidad) {
-        nacionalidad.setId(id);
         return nacionalidadService.save(nacionalidad);
     }
 

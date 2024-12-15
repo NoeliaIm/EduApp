@@ -6,9 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Getter
 @Setter
 @Entity
@@ -22,15 +19,6 @@ public class Asignatura {
     @Size(max = 100)
     @NotNull
     @Column(name = "nombre_asignatura", nullable = false, length = 100)
-    private String nombreAsignatura;
+    private String nombre_asignatura;
 
-    @ManyToOne
-    @JoinColumn(name = "id_curso", nullable = false)
-    private Curso curso;
-
-    @ManyToMany(mappedBy = "asignaturas")
-    private Set<Profesor> profesores = new HashSet<>();
-
-    @ManyToMany(mappedBy = "asignaturas")
-    private Set<Alumno> alumnos = new HashSet<>();
 }

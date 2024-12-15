@@ -4,7 +4,9 @@ import com.niglesiasm.eduapp.model.Curso;
 import com.niglesiasm.eduapp.service.curso.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cursos")
@@ -28,11 +30,6 @@ public class CursoController {
         return cursoService.save(curso);
     }
 
-    @PutMapping("/{id}")
-    public Curso update(@PathVariable Integer id, @RequestBody Curso curso) {
-        curso.setId(id);
-        return cursoService.save(curso);
-    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

@@ -2,9 +2,8 @@ package com.niglesiasm.eduapp.service.profesor;
 
 import com.niglesiasm.eduapp.model.Profesor;
 import com.niglesiasm.eduapp.repository.profesor.ProfesorDao;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

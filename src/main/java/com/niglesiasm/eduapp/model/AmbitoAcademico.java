@@ -9,16 +9,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "niveles_academicos", schema = "eduapp")
-public class NivelAcademico {
+@Table(name = "ambitos_academicos", schema = "eduapp")
+public class AmbitoAcademico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_nivel", nullable = false)
+    @Column(name = "id_ambito", nullable = false)
     private Integer id;
 
-    @Size(max = 20)
+    @Size(max = 50)
     @NotNull
-    @Column(name = "descripcion", nullable = false, length = 20)
-    private String descripcion;
+    @Column(name = "nombre", nullable = false, length = 50)
+    private String nombre;
 
 }

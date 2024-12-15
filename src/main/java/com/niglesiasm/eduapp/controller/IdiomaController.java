@@ -4,7 +4,9 @@ import com.niglesiasm.eduapp.model.Idioma;
 import com.niglesiasm.eduapp.service.idioma.IdiomaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/idiomas")
@@ -28,11 +30,6 @@ public class IdiomaController {
         return idiomaService.save(idioma);
     }
 
-    @PutMapping("/{id}")
-    public Idioma update(@PathVariable Integer id, @RequestBody Idioma idioma) {
-        idioma.setId(id);
-        return idiomaService.save(idioma);
-    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

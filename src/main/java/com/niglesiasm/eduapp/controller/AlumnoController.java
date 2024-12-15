@@ -17,7 +17,7 @@ public class AlumnoController {
 
     @GetMapping
     public List<Alumno> getAll() {
-        return alumnoService.findAll();
+        return alumnoService.getAlumnosAll();
     }
 
     @GetMapping("/{id}")
@@ -30,11 +30,6 @@ public class AlumnoController {
         return alumnoService.save(alumno);
     }
 
-    @PutMapping("/{id}")
-    public Alumno update(@PathVariable Integer id, @RequestBody Alumno alumno) {
-        alumno.setId(id);
-        return alumnoService.save(alumno);
-    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

@@ -1,9 +1,9 @@
 package com.niglesiasm.eduapp.service.nacionalidad;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.niglesiasm.eduapp.repository.nacionalidad.NacionalidadDao;
 import com.niglesiasm.eduapp.model.Nacionalidad;
+import com.niglesiasm.eduapp.repository.nacionalidad.NacionalidadDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;

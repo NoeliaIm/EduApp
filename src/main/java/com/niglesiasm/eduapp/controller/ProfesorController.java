@@ -4,7 +4,9 @@ import com.niglesiasm.eduapp.model.Profesor;
 import com.niglesiasm.eduapp.service.profesor.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/profesors")
@@ -28,11 +30,6 @@ public class ProfesorController {
         return profesorService.save(profesor);
     }
 
-    @PutMapping("/{id}")
-    public Profesor update(@PathVariable Integer id, @RequestBody Profesor profesor) {
-        profesor.setId(id);
-        return profesorService.save(profesor);
-    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
