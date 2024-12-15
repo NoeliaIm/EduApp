@@ -2,7 +2,11 @@ package com.niglesiasm.eduapp.service.alumno.impl;
 
 import com.niglesiasm.eduapp.model.Alumno;
 import com.niglesiasm.eduapp.repository.alumno.AlumnoDao;
+import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
+import com.niglesiasm.eduapp.service.alumno.AlumnoMapper;
 import com.niglesiasm.eduapp.service.alumno.AlumnoService;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +17,35 @@ import java.util.Optional;
 public class AlumnoServiceImpl implements AlumnoService {
 
 
-    private AlumnoDao alumnoDao;
+    private final AlumnoDao alumnoDao;
+    private final AlumnoMapper alumnoMapper;
+    private final AsignaturaService asignaturaService;
 
     @Autowired
-    AlumnoServiceImpl(AlumnoDao alumnoDao) {
+    AlumnoServiceImpl(AlumnoDao alumnoDao, AlumnoMapper alumnoMapper, AsignaturaService asignaturaService) {
         this.alumnoDao = alumnoDao;
+        this.alumnoMapper = alumnoMapper;
+        this.asignaturaService = asignaturaService;
     }
 
     @Override
-    public List<Alumno> getAlumnosAll() {
-        return alumnoDao.findAll();
+    public List<AlumnoDTO> getAlumnosAll() {
+        List<Alumno> alumnoList = alumnoDao.findAll();
+        List<AlumnoDTO> alumnoDTOS = alumnoMapper.alumnosToAlumnosDTO(alumnoList);
+        List<AsignaturaDTO> asignaturaDTOS = this.asignaturaService.getAsignaturasAll();
+
+        return alumnoMapper.alumnosToAlumnosDTO(alumnoList);
     }
 
     @Override
-    public Optional<Alumno> findById(Integer id) {
-        return alumnoDao.findById(id);
+    public Optional<AlumnoDTO> findById(Integer id) {
+        Optional<Alumno> alumno = alumnoDao.findById(id);
 
+        if (alumno.isPresent()) {
+            AlumnoDTO alumnoDTO = alumnoMapper.alumnoToAlumnoDTO(alumno.get());
+            return Optional.of(alumnoDTO);
+        }
+        return Optional.empty();
     }
 
     @Override

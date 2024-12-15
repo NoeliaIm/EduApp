@@ -1,6 +1,7 @@
 package com.niglesiasm.eduapp.controller;
 
 import com.niglesiasm.eduapp.model.Curso;
+import com.niglesiasm.eduapp.service.curso.CursoDTO;
 import com.niglesiasm.eduapp.service.curso.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class CursoController {
     private CursoService cursoService;
 
     @GetMapping
-    public List<Curso> getAll() {
-        return cursoService.findAll();
+    public List<CursoDTO> getAll() {
+        return cursoService.getCursosAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Curso> getById(@PathVariable Long id) {
+    public Optional<CursoDTO> getById(@PathVariable Integer id) {
         return cursoService.findById(id);
     }
 
@@ -32,7 +33,7 @@ public class CursoController {
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         cursoService.deleteById(id);
     }
 }

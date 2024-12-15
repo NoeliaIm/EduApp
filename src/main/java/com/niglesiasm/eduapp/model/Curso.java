@@ -20,4 +20,9 @@ public class Curso {
     @JoinColumn(name = "id_anio", nullable = false)
     private AnnioAcademico idAnio;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_nombre", nullable = false)
+    private NombreCurso idNombre;
+
 }

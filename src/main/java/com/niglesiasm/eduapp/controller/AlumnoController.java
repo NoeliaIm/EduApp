@@ -1,6 +1,7 @@
 package com.niglesiasm.eduapp.controller;
 
 import com.niglesiasm.eduapp.model.Alumno;
+import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
 import com.niglesiasm.eduapp.service.alumno.AlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class AlumnoController {
     private AlumnoService alumnoService;
 
     @GetMapping
-    public List<Alumno> getAll() {
+    public List<AlumnoDTO> getAll() {
         return alumnoService.getAlumnosAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Alumno> getById(@PathVariable Integer id) {
+    public Optional<AlumnoDTO> getById(@PathVariable Integer id) {
         return alumnoService.findById(id);
     }
 

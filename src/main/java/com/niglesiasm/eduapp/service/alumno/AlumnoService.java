@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface AlumnoService {
 
 
-    List<Alumno> getAlumnosAll();
+    List<AlumnoDTO> getAlumnosAll();
 
-    Optional<Alumno> findById(Integer id);
+    Optional<AlumnoDTO> findById(Integer id);
 
     Alumno save(Alumno entity);
 
