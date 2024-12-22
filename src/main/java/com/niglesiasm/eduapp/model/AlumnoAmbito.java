@@ -1,8 +1,7 @@
 package com.niglesiasm.eduapp.model;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,5 +12,11 @@ import lombok.Setter;
 public class AlumnoAmbito {
     @EmbeddedId
     private AlumnoAmbitoId id;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER) // Carga inmediata del nivel de idioma
+    @JoinColumn(name = "id_nivel", nullable = false) // Relación con la tabla "niveles_idioma"
+    private NivelAcademico nivelAcademico;
+
 
 }

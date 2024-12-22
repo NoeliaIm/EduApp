@@ -1,8 +1,17 @@
 package com.niglesiasm.eduapp.service.alumno.impl;
 
+import com.niglesiasm.eduapp.config.PaisProperties;
 import com.niglesiasm.eduapp.model.Alumno;
 import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
 import com.niglesiasm.eduapp.service.alumno.AlumnoMapper;
+import com.niglesiasm.eduapp.service.alumnoambito.AlumnoAmbitoDTO;
+import com.niglesiasm.eduapp.service.alumnoambito.AlumnoAmbitoMapper;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaMapper;
+import com.niglesiasm.eduapp.service.idioma.AlumnoIdiomaDTO;
+import com.niglesiasm.eduapp.service.idioma.AlumnoIdiomaMapper;
+import com.niglesiasm.eduapp.service.necesidadEspecial.NecesidadEspecialDTO;
+import com.niglesiasm.eduapp.service.necesidadEspecial.NecesidadEspecialMapper;
 import com.niglesiasm.eduapp.service.persona.PersonaDTO;
 import com.niglesiasm.eduapp.service.persona.PersonaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +24,20 @@ import java.util.List;
 public class AlumnoMapperImpl implements AlumnoMapper {
 
     private final PersonaMapper personaMapper;
+    private final AsignaturaMapper asignaturaMapper;
+    private final NecesidadEspecialMapper necesidadEspecialMapper;
+    private final PaisProperties paisProperties;
+    private final AlumnoIdiomaMapper alumnoIdiomaMapper;
+    private final AlumnoAmbitoMapper alumnoAmbitoMapper;
 
     @Autowired
-    public AlumnoMapperImpl(PersonaMapper personaMapper) {
+    public AlumnoMapperImpl(PersonaMapper personaMapper, AsignaturaMapper asignaturaMapper, NecesidadEspecialMapper necesidadEspecialMapper, PaisProperties paisProperties, AlumnoIdiomaMapper alumnoIdiomaMapper, AlumnoAmbitoMapper alumnoAmbitoMapper) {
         this.personaMapper = personaMapper;
+        this.asignaturaMapper = asignaturaMapper;
+        this.necesidadEspecialMapper = necesidadEspecialMapper;
+        this.paisProperties = paisProperties;
+        this.alumnoIdiomaMapper = alumnoIdiomaMapper;
+        this.alumnoAmbitoMapper = alumnoAmbitoMapper;
     }
 
     @Override
@@ -35,51 +54,35 @@ public class AlumnoMapperImpl implements AlumnoMapper {
         PersonaDTO personaDTO = personaMapper.personaToPersonaDTO(entity.getPersona());
         alumnoDTO.setPersonaDTO(personaDTO);
 
+        List<AsignaturaDTO> asignaturas = this.asignaturaMapper.asignaturasToAsignaturasDTO(entity.getAsignaturas());
+        alumnoDTO.setAsignaturas(asignaturas);
 
+        List<NecesidadEspecialDTO> necesidadesEspeciales = this.necesidadEspecialMapper.necesidadesEspecialesToNecesidadesEspecialesDTO(entity.getNecesidadesEspeciales());
+        alumnoDTO.setNecesidadesEspeciales(necesidadesEspeciales);
+
+        boolean esExtranjero = (entity.getNacionalidad() != null) && !(entity.getNacionalidad().getId().equals(this.paisProperties.getDefaultPais()));
+        alumnoDTO.setExtranjero(esExtranjero);
+
+        List<AlumnoIdiomaDTO> idiomas = this.alumnoIdiomaMapper.alumnosIdiomasToAlumnosIdiomasDTO(entity.getIdiomas());
+        alumnoDTO.setIdiomas(idiomas);
+
+        List<AlumnoAmbitoDTO> ambitos = this.alumnoAmbitoMapper.alumnosAmbitoToAlumnosAmbitoDTO(entity.getAmbitos());
+        alumnoDTO.setAmbitos(ambitos);
         return alumnoDTO;
     }
-
-   /*  @Override
-     public Alumno toAlumno(AlumnoDTO dto) {
-         if ( dto == null ) {
-             return null;
-         }
-
-         Alumno alumno = new Alumno();
-
-         alumno.setId( dto.getId() );
-         alumno.setNumeroExpediente( dto.getNumeroExpediente() );
-
-         return alumno;
-     }*/
 
     @Override
     public List<AlumnoDTO> alumnosToAlumnosDTO(List<Alumno> entityList) {
         if (entityList == null) {
-            return null;
+            return new ArrayList<>();
         }
 
-        List<AlumnoDTO> list = new ArrayList<AlumnoDTO>(entityList.size());
+        List<AlumnoDTO> list = new ArrayList<>(entityList.size());
         for (Alumno alumno : entityList) {
             list.add(alumnoToAlumnoDTO(alumno));
         }
 
         return list;
     }
-
-    /* @Override
-     public List<Alumno> toAlumnoList(List<AlumnoDTO> dtoList) {
-         if ( dtoList == null ) {
-             return null;
-         }
-
-         List<Alumno> list = new ArrayList<Alumno>( dtoList.size() );
-         for ( AlumnoDTO alumnoDTO : dtoList ) {
-             list.add( toAlumno( alumnoDTO ) );
-         }
-
-         return list;
-     }
-    */
 
 }

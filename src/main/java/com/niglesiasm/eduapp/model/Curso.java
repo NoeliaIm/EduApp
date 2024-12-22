@@ -21,8 +21,13 @@ public class Curso {
     private AnnioAcademico idAnio;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_nombre", nullable = false)
     private NombreCurso idNombre;
+
+    @Transient
+    public String getNombreCurso() {
+        return idNombre != null ? idNombre.getNombre() : null;
+    }
 
 }

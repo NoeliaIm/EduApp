@@ -37,3 +37,6 @@ spring:
 logging:
   level:
     org.springframework.boot.context.config: TRACE
+app:
+  pais:
+    default: 7

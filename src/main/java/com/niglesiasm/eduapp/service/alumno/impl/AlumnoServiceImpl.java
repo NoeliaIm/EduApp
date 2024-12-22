@@ -5,7 +5,6 @@ import com.niglesiasm.eduapp.repository.alumno.AlumnoDao;
 import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
 import com.niglesiasm.eduapp.service.alumno.AlumnoMapper;
 import com.niglesiasm.eduapp.service.alumno.AlumnoService;
-import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
 import com.niglesiasm.eduapp.service.asignatura.AsignaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +30,6 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Override
     public List<AlumnoDTO> getAlumnosAll() {
         List<Alumno> alumnoList = alumnoDao.findAll();
-        List<AlumnoDTO> alumnoDTOS = alumnoMapper.alumnosToAlumnosDTO(alumnoList);
-        List<AsignaturaDTO> asignaturaDTOS = this.asignaturaService.getAsignaturasAll();
 
         return alumnoMapper.alumnosToAlumnosDTO(alumnoList);
     }
