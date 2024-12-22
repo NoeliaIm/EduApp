@@ -22,15 +22,12 @@ public class IdiomaService {
         return repository.findAll();
     }
 
-    public Optional<Idioma> findById(Long id) {
+    public Optional<Idioma> findById(Integer id) {
         return repository.findById(id);
     }
 
     public Idioma save(Idioma entity) {
         return repository.save(entity);
     }
-
-    public void deleteById(Long id) {
-        repository.deleteById(id);
-    }
+    
 }

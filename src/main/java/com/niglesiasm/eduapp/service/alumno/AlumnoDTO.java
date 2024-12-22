@@ -22,5 +22,6 @@ public class AlumnoDTO {
     private List<AlumnoIdiomaDTO> idiomas;
     private List<AlumnoAmbitoDTO> ambitos;
     private Boolean extranjero;
+    private String nacionalidad;
 
 }

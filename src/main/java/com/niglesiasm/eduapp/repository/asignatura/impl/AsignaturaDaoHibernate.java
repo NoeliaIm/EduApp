@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,7 @@ public class AsignaturaDaoHibernate extends SimpleJpaRepository<Asignatura, Inte
 
     private final EntityManager entityManager;
 
+    @Autowired
     public AsignaturaDaoHibernate(EntityManager entityManager) {
         super(Asignatura.class, entityManager);
         this.entityManager = entityManager;

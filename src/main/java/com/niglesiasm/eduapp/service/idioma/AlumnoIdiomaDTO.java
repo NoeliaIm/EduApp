@@ -8,4 +8,5 @@ public class AlumnoIdiomaDTO {
 
     private boolean isNativo;
     private NivelIdiomaDTO nivelIdioma;
+    private IdiomaDTO idioma;
 }

@@ -62,6 +62,7 @@ public class AlumnoMapperImpl implements AlumnoMapper {
 
         boolean esExtranjero = (entity.getNacionalidad() != null) && !(entity.getNacionalidad().getId().equals(this.paisProperties.getDefaultPais()));
         alumnoDTO.setExtranjero(esExtranjero);
+        alumnoDTO.setNacionalidad(entity.getNacionalidad() != null ? entity.getNacionalidad().getNombre() : "");
 
         List<AlumnoIdiomaDTO> idiomas = this.alumnoIdiomaMapper.alumnosIdiomasToAlumnosIdiomasDTO(entity.getIdiomas());
         alumnoDTO.setIdiomas(idiomas);

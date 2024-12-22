@@ -3,6 +3,7 @@ package com.niglesiasm.eduapp.service.idioma.impl;
 import com.niglesiasm.eduapp.model.AlumnoIdioma;
 import com.niglesiasm.eduapp.service.idioma.AlumnoIdiomaDTO;
 import com.niglesiasm.eduapp.service.idioma.AlumnoIdiomaMapper;
+import com.niglesiasm.eduapp.service.idioma.IdiomaDTO;
 import com.niglesiasm.eduapp.service.niveles.NivelIdiomaDTO;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class AlumnoIdiomaMapperImpl implements AlumnoIdiomaMapper {
     public AlumnoIdiomaDTO alumnoIdiomaToAlumnoIdiomaDTO(AlumnoIdioma alumnoIdioma) {
         AlumnoIdiomaDTO alumnoIdiomaDTO = new AlumnoIdiomaDTO();
         NivelIdiomaDTO nivelIdiomaDTO = new NivelIdiomaDTO();
+        IdiomaDTO idiomaDTO = new IdiomaDTO();
+        idiomaDTO.setIdIdioma(alumnoIdioma.getId().getIdioma().getId());
+        idiomaDTO.setNombreIdioma(alumnoIdioma.getId().getIdioma().getNombre());
+        alumnoIdiomaDTO.setIdioma(idiomaDTO);
         nivelIdiomaDTO.setIdNivelIdioma(alumnoIdioma.getNivelIdioma().getId());
         nivelIdiomaDTO.setNombreNivelIdioma(alumnoIdioma.getNivelIdioma().getDescripcion());
         alumnoIdiomaDTO.setNivelIdioma(nivelIdiomaDTO);
