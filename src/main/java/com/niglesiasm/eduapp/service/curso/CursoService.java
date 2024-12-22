@@ -10,6 +10,8 @@ public interface CursoService {
 
     List<CursoDTO> getCursosAll();
 
+    List<CursoDTO> getCursosActivos();
+
     Optional<CursoDTO> findById(Integer id);
 
     Curso save(Curso entity);

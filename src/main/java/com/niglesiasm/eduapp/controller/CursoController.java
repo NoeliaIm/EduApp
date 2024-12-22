@@ -21,6 +21,11 @@ public class CursoController {
         return cursoService.getCursosAll();
     }
 
+    @GetMapping("/activos")
+    public List<CursoDTO> getCursosActivos() {
+        return cursoService.getCursosActivos();
+    }
+
     @GetMapping("/{id}")
     public Optional<CursoDTO> getById(@PathVariable Integer id) {
         return cursoService.findById(id);
