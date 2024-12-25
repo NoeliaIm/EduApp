@@ -1,4 +1,4 @@
-package com.niglesiasm.eduapp.service.necesidadEspecial;
+package com.niglesiasm.eduapp.service.necesidadespecial;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
-package com.niglesiasm.eduapp.service.necesidadEspecial.impl;
+package com.niglesiasm.eduapp.service.necesidadespecial.impl;
 
 import com.niglesiasm.eduapp.model.NecesidadEspecial;
-import com.niglesiasm.eduapp.service.necesidadEspecial.NecesidadEspecialDTO;
-import com.niglesiasm.eduapp.service.necesidadEspecial.NecesidadEspecialMapper;
+import com.niglesiasm.eduapp.service.necesidadespecial.NecesidadEspecialDTO;
+import com.niglesiasm.eduapp.service.necesidadespecial.NecesidadEspecialMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

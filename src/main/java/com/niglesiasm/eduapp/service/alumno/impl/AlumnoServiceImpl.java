@@ -30,7 +30,7 @@ public class AlumnoServiceImpl implements AlumnoService {
     @Override
     public List<AlumnoDTO> getAlumnosAll() {
         List<Alumno> alumnoList = alumnoDao.findAll();
-
+        alumnoList = alumnoList.stream().filter(alumno -> alumno.getPersona().getFecha_baja() == null).toList();
         return alumnoMapper.alumnosToAlumnosDTO(alumnoList);
     }
 

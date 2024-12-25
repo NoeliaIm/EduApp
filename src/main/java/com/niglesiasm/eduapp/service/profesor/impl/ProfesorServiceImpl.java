@@ -16,7 +16,7 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     private final ProfesorDao profesorDao;
 
-    private ProfesorMapper profesorMapper;
+    private final ProfesorMapper profesorMapper;
 
 
     @Autowired

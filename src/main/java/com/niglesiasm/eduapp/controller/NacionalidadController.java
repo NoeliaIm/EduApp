@@ -12,8 +12,13 @@ import java.util.Optional;
 @RequestMapping("/api/nacionalidads")
 public class NacionalidadController {
 
-    @Autowired
+
     private NacionalidadService nacionalidadService;
+
+    @Autowired
+    public NacionalidadController(NacionalidadService nacionalidadService) {
+        this.nacionalidadService = nacionalidadService;
+    }
 
     @GetMapping
     public List<Nacionalidad> getAll() {
