@@ -1,10 +1,13 @@
 package com.niglesiasm.eduapp.controller;
 
 import com.niglesiasm.eduapp.model.Persona;
+import com.niglesiasm.eduapp.service.persona.PersonaDTO;
 import com.niglesiasm.eduapp.service.persona.PersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/personas")
@@ -14,12 +17,12 @@ public class PersonaController {
     private PersonaService personaService;
 
     @GetMapping
-    public List<Persona> getAll() {
-        return personaService.findAll();
+    public List<PersonaDTO> getAll() {
+        return personaService.getPersonsAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Persona> getById(@PathVariable Long id) {
+    public Optional<PersonaDTO> getById(@PathVariable Integer id) {
         return personaService.findById(id);
     }
 
@@ -28,14 +31,9 @@ public class PersonaController {
         return personaService.save(persona);
     }
 
-    @PutMapping("/{id}")
-    public Persona update(@PathVariable Integer id, @RequestBody Persona persona) {
-        persona.setId(id);
-        return personaService.save(persona);
-    }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         personaService.deleteById(id);
     }
 }

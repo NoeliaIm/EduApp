@@ -1,10 +1,13 @@
 package com.niglesiasm.eduapp.controller;
 
 import com.niglesiasm.eduapp.model.Curso;
+import com.niglesiasm.eduapp.service.curso.CursoDTO;
 import com.niglesiasm.eduapp.service.curso.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cursos")
@@ -14,12 +17,17 @@ public class CursoController {
     private CursoService cursoService;
 
     @GetMapping
-    public List<Curso> getAll() {
-        return cursoService.findAll();
+    public List<CursoDTO> getAll() {
+        return cursoService.getCursosAll();
+    }
+
+    @GetMapping("/activos")
+    public List<CursoDTO> getCursosActivos() {
+        return cursoService.getCursosActivos();
     }
 
     @GetMapping("/{id}")
-    public Optional<Curso> getById(@PathVariable Long id) {
+    public Optional<CursoDTO> getById(@PathVariable Integer id) {
         return cursoService.findById(id);
     }
 
@@ -28,14 +36,9 @@ public class CursoController {
         return cursoService.save(curso);
     }
 
-    @PutMapping("/{id}")
-    public Curso update(@PathVariable Integer id, @RequestBody Curso curso) {
-        curso.setId(id);
-        return cursoService.save(curso);
-    }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         cursoService.deleteById(id);
     }
 }

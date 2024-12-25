@@ -1,11 +1,12 @@
 package com.niglesiasm.eduapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,20 +18,22 @@ public class Profesor {
     @Column(name = "id_profesor", nullable = false)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
 
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "departamento", nullable = false, length = 100)
+    private String departamento;
+
     @ManyToMany
     @JoinTable(
-            name = "profesor_asignatura",
-            joinColumns = @JoinColumn(name = "id_profesor"),
-            inverseJoinColumns = @JoinColumn(name = "id_asignatura")
+            name = "profesor_asignatura", // Nombre de la tabla intermedia en la base de datos
+            joinColumns = @JoinColumn(name = "id_profesor"), // Llave foránea de tabla Profesor
+            inverseJoinColumns = @JoinColumn(name = "id_asignatura") // Llave foránea de tabla Asignatura
     )
-    private Set<Asignatura> asignaturas = new HashSet<>();
-
-
-    @Column(nullable = false)
-    private String departamento;
+    private List<Asignatura> asignaturas;
 
 }

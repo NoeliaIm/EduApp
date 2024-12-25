@@ -1,39 +1,24 @@
 package com.niglesiasm.eduapp.model;
 
-import java.util.Arrays;
-import java.util.List;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
-public enum NivelIdioma {
+@Getter
+@Setter
+@Entity
+@Table(name = "niveles_idioma", schema = "eduapp")
+public class NivelIdioma {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_nivel", nullable = false)
+    private Integer id;
 
-    A1(1, "A1"),A2(2, "A2"),B1(3, "B1"),B2(4, "B2"),C1(5, "C1"),C2(6, "C2");
+    @Size(max = 10)
+    @NotNull
+    @Column(name = "descripcion", nullable = false, length = 10)
+    private String descripcion;
 
-    private int id;
-    private String nombre;
-
-    NivelIdioma(int id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-    }
-
-    public NivelIdioma getNivelIdiomaById(int id){
-        for(NivelIdioma n : NivelIdioma.values()){
-            if(n.id == id){
-                return n;
-            }
-        }
-        return null;
-    }
-
-    public NivelIdioma getNivelIdiomaByNombre(String nombre){
-        for(NivelIdioma n : NivelIdioma.values()){
-            if(n.nombre.equals(nombre)){
-                return n;
-            }
-        }
-        return null;
-    }
-
-    public List<NivelIdioma> getAllNivelesIdiomas(){
-        return Arrays.asList(NivelIdioma.values());
-    }
 }

@@ -4,7 +4,9 @@ import com.niglesiasm.eduapp.model.AnnioAcademico;
 import com.niglesiasm.eduapp.service.annioacademico.AnnioAcademicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/annioAcademicos")
@@ -28,11 +30,6 @@ public class AnnioAcademicoController {
         return annioAcademicoService.save(annioAcademico);
     }
 
-    @PutMapping("/{id}")
-    public AnnioAcademico update(@PathVariable Integer id, @RequestBody AnnioAcademico annioAcademico) {
-        annioAcademico.setId(id);
-        return annioAcademicoService.save(annioAcademico);
-    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

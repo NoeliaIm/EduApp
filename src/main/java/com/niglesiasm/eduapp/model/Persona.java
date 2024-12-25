@@ -1,5 +1,6 @@
 package com.niglesiasm.eduapp.model;
 
+import com.niglesiasm.eduapp.model.enums.Rol;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -41,10 +42,10 @@ public class Persona {
 
     @NotNull
     @Column(name = "fecha_alta", nullable = false)
-    private LocalDate fechaAlta;
+    private LocalDate fecha_alta;
 
     @Column(name = "fecha_baja")
-    private LocalDate fechaBaja;
+    private LocalDate fecha_baja;
 
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -52,6 +53,5 @@ public class Persona {
     @Column(name = "id_role")
     @Convert(converter = Rol.RolConverter.class)
     private Set<Rol> roles = new HashSet<>();
-
 
 }

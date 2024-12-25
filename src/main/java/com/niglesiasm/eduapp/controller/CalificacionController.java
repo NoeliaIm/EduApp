@@ -4,7 +4,9 @@ import com.niglesiasm.eduapp.model.Calificacion;
 import com.niglesiasm.eduapp.service.calificacion.CalificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/calificacions")
@@ -28,11 +30,6 @@ public class CalificacionController {
         return calificacionService.save(calificacion);
     }
 
-    @PutMapping("/{id}")
-    public Calificacion update(@PathVariable Integer id, @RequestBody Calificacion calificacion) {
-        calificacion.setId(id);
-        return calificacionService.save(calificacion);
-    }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

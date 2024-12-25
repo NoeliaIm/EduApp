@@ -3,8 +3,9 @@ package com.niglesiasm.eduapp.service.alumno.impl;
 import com.niglesiasm.eduapp.model.Alumno;
 import com.niglesiasm.eduapp.repository.alumno.AlumnoDao;
 import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
+import com.niglesiasm.eduapp.service.alumno.AlumnoMapper;
 import com.niglesiasm.eduapp.service.alumno.AlumnoService;
-import jakarta.persistence.EntityNotFoundException;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,25 +16,33 @@ import java.util.Optional;
 public class AlumnoServiceImpl implements AlumnoService {
 
 
-    private AlumnoDao alumnoDao;
+    private final AlumnoDao alumnoDao;
+    private final AlumnoMapper alumnoMapper;
+    private final AsignaturaService asignaturaService;
 
     @Autowired
-    AlumnoServiceImpl(AlumnoDao alumnoDao) {
+    AlumnoServiceImpl(AlumnoDao alumnoDao, AlumnoMapper alumnoMapper, AsignaturaService asignaturaService) {
         this.alumnoDao = alumnoDao;
+        this.alumnoMapper = alumnoMapper;
+        this.asignaturaService = asignaturaService;
     }
 
     @Override
-    public List<Alumno> findAll() {
-        return List.of();
+    public List<AlumnoDTO> getAlumnosAll() {
+        List<Alumno> alumnoList = alumnoDao.findAll();
+        alumnoList = alumnoList.stream().filter(alumno -> alumno.getPersona().getFecha_baja() == null).toList();
+        return alumnoMapper.alumnosToAlumnosDTO(alumnoList);
     }
 
     @Override
-    public Optional<Alumno> findById(Integer id) {
-        Alumno alumno = alumnoDao.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Alumno no encontrado"));
-        AlumnoDTO.fromEntity(alumno);
+    public Optional<AlumnoDTO> findById(Integer id) {
+        Optional<Alumno> alumno = alumnoDao.findById(id);
 
-        return Optional.of(alumno);
+        if (alumno.isPresent()) {
+            AlumnoDTO alumnoDTO = alumnoMapper.alumnoToAlumnoDTO(alumno.get());
+            return Optional.of(alumnoDTO);
+        }
+        return Optional.empty();
     }
 
     @Override

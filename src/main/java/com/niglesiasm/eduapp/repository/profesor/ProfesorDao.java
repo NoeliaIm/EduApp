@@ -1,10 +1,10 @@
 package com.niglesiasm.eduapp.repository.profesor;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import com.niglesiasm.eduapp.model.Profesor;
+import java.util.List;
 
-@Repository
-public interface ProfesorDao extends JpaRepository<Profesor, Long> {
-    
+public interface ProfesorDao {
+
+    List<Object[]> obtenerProfesoresByAnnioActual();
+
+
 }

@@ -1,10 +1,13 @@
 package com.niglesiasm.eduapp.controller;
 
 import com.niglesiasm.eduapp.model.Asignatura;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
 import com.niglesiasm.eduapp.service.asignatura.AsignaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/asignaturas")
@@ -14,12 +17,12 @@ public class AsignaturaController {
     private AsignaturaService asignaturaService;
 
     @GetMapping
-    public List<Asignatura> getAll() {
-        return asignaturaService.findAll();
+    public List<AsignaturaDTO> getAll() {
+        return asignaturaService.getAsignaturasAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Asignatura> getById(@PathVariable Long id) {
+    public Optional<AsignaturaDTO> getById(@PathVariable Integer id) {
         return asignaturaService.findById(id);
     }
 
@@ -28,14 +31,9 @@ public class AsignaturaController {
         return asignaturaService.save(asignatura);
     }
 
-    @PutMapping("/{id}")
-    public Asignatura update(@PathVariable Integer id, @RequestBody Asignatura asignatura) {
-        asignatura.setId(id);
-        return asignaturaService.save(asignatura);
-    }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         asignaturaService.deleteById(id);
     }
 }

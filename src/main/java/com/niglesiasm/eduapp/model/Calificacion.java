@@ -23,14 +23,7 @@ public class Calificacion {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_asignatura", nullable = false)
-    private Asignatura asginatura;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_alumno", nullable = false)
-    private Alumno alumno;
+    private AlumnoAsignatura alumnoAsignatura;
 
     @NotNull
     @Column(name = "calificacion", nullable = false, precision = 5, scale = 2)

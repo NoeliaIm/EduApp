@@ -1,10 +1,11 @@
 package com.niglesiasm.eduapp.repository.asignatura;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import com.niglesiasm.eduapp.model.Asignatura;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
 
-@Repository
-public interface AsignaturaDao extends JpaRepository<Asignatura, Long> {
-    
+import java.util.List;
+
+public interface AsignaturaDao {
+
+    List<AsignaturaDTO> obtenerAsignaturasByAnnioActual();
+
 }

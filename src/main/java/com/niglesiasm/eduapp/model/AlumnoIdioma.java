@@ -1,6 +1,7 @@
 package com.niglesiasm.eduapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,23 +10,16 @@ import lombok.Setter;
 @Entity
 @Table(name = "alumno_idioma", schema = "eduapp")
 public class AlumnoIdioma {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_alumno_idioma", nullable = false)
-    private Integer id;
+    @EmbeddedId
+    private AlumnoIdiomaId id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_alumno", nullable = false)
-    private Alumno alumno;
+    @NotNull
+    @Column(name = "es_nativo", nullable = false)
+    private Boolean esNativo = false;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_idioma", nullable = false)
-    private Idioma idioma;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "id_nivel", nullable = false)
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER) // Carga inmediata del nivel de idioma
+    @JoinColumn(name = "id_nivel", nullable = false) // Relación con la tabla "niveles_idioma"
     private NivelIdioma nivelIdioma;
 
-    @Column(name = "es_nativo", nullable = false)
-    private Boolean esNativo;
 }

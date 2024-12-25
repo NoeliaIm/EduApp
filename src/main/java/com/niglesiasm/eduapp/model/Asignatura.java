@@ -5,9 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -24,13 +23,18 @@ public class Asignatura {
     @Column(name = "nombre_asignatura", nullable = false, length = 100)
     private String nombreAsignatura;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_curso", nullable = false)
-    private Curso curso;
+    private Curso idCurso;
 
-    @ManyToMany(mappedBy = "asignaturas")
-    private Set<Profesor> profesores = new HashSet<>();
+    @Size(max = 255)
+    @Column(name = "descripcion")
+    private String descripcion;
 
-    @ManyToMany(mappedBy = "asignaturas")
-    private Set<Alumno> alumnos = new HashSet<>();
+    @Size(max = 12)
+    @Column(name = "acron", length = 12)
+    private String acron;
+
 }
