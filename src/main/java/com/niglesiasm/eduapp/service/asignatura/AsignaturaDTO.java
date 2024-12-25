@@ -13,6 +13,7 @@ public class AsignaturaDTO {
 
     private Integer idAsignatura;
     private String nombreAsignatura;
+    private Integer idCurso;
     private String nombreCurso;
     private String descripcion;
     private String acron;

@@ -49,6 +49,7 @@ public class AsignaturaDaoHibernate extends SimpleJpaRepository<Asignatura, Inte
                 AsignaturaDTO.class,
                 asignaturaRoot.get("id"),
                 asignaturaRoot.get("nombreAsignatura"),
+                cursoJoin.get("id"),
                 nombreCursoJoin.get("nombre"),
                 asignaturaRoot.get("descripcion"),
                 asignaturaRoot.get("acron")
