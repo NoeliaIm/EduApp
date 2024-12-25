@@ -58,4 +58,14 @@ public class AsignaturaDaoHibernate extends SimpleJpaRepository<Asignatura, Inte
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
+    @Override
+    public void guardarAsignatura(Asignatura asignatura) {
+        super.save(asignatura);
+        this.flush();
+    }
+
+    @Override
+    public Asignatura findByIdAsignatura(Integer id) {
+        return super.findById(id).orElseThrow();
+    }
 }

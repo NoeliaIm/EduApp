@@ -50,6 +50,7 @@ public class ProfesorDaoHibernate extends SimpleJpaRepository<Profesor, Integer>
                 personaJoin.get("apellido2"),                // Segundo apellido
                 asignaturaJoin.get("id"),                    // ID de la asignatura
                 asignaturaJoin.get("nombreAsignatura"),      // Nombre de la asignatura
+                cursoJoin.get("id"),                         // ID del curso
                 nombreCursoJoin.get("nombre"),               // Nombre del curso
                 asignaturaJoin.get("descripcion"),           // Descripción de la asignatura
                 asignaturaJoin.get("acron")                  // Acrónimo de la asignatura

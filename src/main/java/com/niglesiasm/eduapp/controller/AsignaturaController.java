@@ -1,9 +1,10 @@
 package com.niglesiasm.eduapp.controller;
 
-import com.niglesiasm.eduapp.model.Asignatura;
 import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
 import com.niglesiasm.eduapp.service.asignatura.AsignaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +14,13 @@ import java.util.Optional;
 @RequestMapping("/api/asignaturas")
 public class AsignaturaController {
 
-    @Autowired
+
     private AsignaturaService asignaturaService;
+
+    @Autowired
+    public AsignaturaController(AsignaturaService asignaturaService) {
+        this.asignaturaService = asignaturaService;
+    }
 
     @GetMapping
     public List<AsignaturaDTO> getAll() {
@@ -27,8 +33,9 @@ public class AsignaturaController {
     }
 
     @PostMapping
-    public Asignatura create(@RequestBody Asignatura asignatura) {
-        return asignaturaService.save(asignatura);
+    public ResponseEntity<Void> createOrUpdate(@RequestBody AsignaturaDTO asignatura) {
+        this.asignaturaService.createOrUpdateAsignatura(asignatura);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

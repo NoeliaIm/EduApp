@@ -50,9 +50,10 @@ public class ProfesorMapperImpl implements ProfesorMapper {
             String apellido2Persona = (String) resultado[4];
             Integer idAsignatura = (Integer) resultado[5];
             String nombreAsignatura = (String) resultado[6];
-            String nombreCurso = (String) resultado[7];
-            String descripcionAsignatura = (String) resultado[8];
-            String acronAsignatura = (String) resultado[9];
+            Integer idCurso = (Integer) resultado[7];
+            String nombreCurso = (String) resultado[8];
+            String descripcionAsignatura = (String) resultado[9];
+            String acronAsignatura = (String) resultado[10];
 
             // Crear o recuperar el ProfesorDTO
             ProfesorDTO profesorDTO = profesorMap.computeIfAbsent(idProfesor, k -> {
@@ -72,6 +73,7 @@ public class ProfesorMapperImpl implements ProfesorMapper {
             profesorDTO.getAsignaturas().add(new AsignaturaDTO(
                     idAsignatura,
                     nombreAsignatura,
+                    idCurso,
                     nombreCurso,
                     descripcionAsignatura,
                     acronAsignatura

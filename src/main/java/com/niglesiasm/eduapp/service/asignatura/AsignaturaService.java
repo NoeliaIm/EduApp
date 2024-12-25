@@ -1,7 +1,5 @@
 package com.niglesiasm.eduapp.service.asignatura;
 
-import com.niglesiasm.eduapp.model.Asignatura;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +10,7 @@ public interface AsignaturaService {
 
     Optional<AsignaturaDTO> findById(Integer id);
 
-    Asignatura save(Asignatura entity);
+    void createOrUpdateAsignatura(AsignaturaDTO asignaturaDTO);
 
     void deleteById(Integer id);
 }
