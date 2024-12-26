@@ -2,7 +2,6 @@ package com.niglesiasm.eduapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +18,9 @@ public class Profesor {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
-
-    @Size(max = 100)
-    @NotNull
-    @Column(name = "departamento", nullable = false, length = 100)
-    private String departamento;
 
     @ManyToMany
     @JoinTable(

@@ -10,4 +10,8 @@ public interface PersonaMapper {
     PersonaDTO personaToPersonaDTO(Persona persona);
 
     List<PersonaDTO> personasToPersonasDTO(List<Persona> personas);
+
+    Persona personaDTOToPersona(PersonaDTO personaDTO);
+
+    List<Persona> personasDTOToPersonas(List<PersonaDTO> personaDTOs);
 }

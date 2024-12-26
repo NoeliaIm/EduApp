@@ -63,4 +63,18 @@ public class ProfesorDaoHibernate extends SimpleJpaRepository<Profesor, Integer>
 
     }
 
+    @Override
+    public Profesor findProfesorByEmail(String email) {
+        List<Profesor> profesorList = this.entityManager.createQuery("SELECT p FROM Profesor p WHERE p.persona.email = :email", Profesor.class)
+                .setParameter("email", email)
+                .getResultList();
+        return profesorList.isEmpty() ? null : profesorList.get(0);
+    }
+
+
+    @Override
+    public void guardarProfesor(Profesor profesor) {
+        super.save(profesor);
+        this.flush();
+    }
 }

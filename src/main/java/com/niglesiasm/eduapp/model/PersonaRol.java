@@ -22,9 +22,10 @@ public class PersonaRol {
 
     @NotNull
     @Column(name = "fecha_inicio", nullable = false)
-    private LocalDate fecha_inicio;
+    private LocalDate fechaInicio;
 
     @Column(name = "fecha_fin")
-    private LocalDate fecha_fin;
+    private LocalDate fechaFin;
+
 
 }

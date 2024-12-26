@@ -4,6 +4,8 @@ import com.niglesiasm.eduapp.model.Profesor;
 import com.niglesiasm.eduapp.service.profesor.ProfesorDTO;
 import com.niglesiasm.eduapp.service.profesor.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +29,10 @@ public class ProfesorController {
     }
 
     @PostMapping
-    public Profesor create(@RequestBody Profesor profesor) {
-        return profesorService.save(profesor);
+    public ResponseEntity<Void> create(@RequestBody ProfesorDTO profesorDTO) {
+        profesorService.guardarOActualizarProfesor(profesorDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

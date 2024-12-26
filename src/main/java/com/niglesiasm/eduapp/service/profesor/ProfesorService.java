@@ -13,7 +13,7 @@ public interface ProfesorService {
 
     Optional<Profesor> findById(Integer id);
 
-    Profesor save(Profesor profesor);
+    void guardarOActualizarProfesor(ProfesorDTO profesorDTO);
 
     void deleteById(Integer id);
 

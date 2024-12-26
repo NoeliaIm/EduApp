@@ -2,6 +2,7 @@ package com.niglesiasm.eduapp.service.profesor.impl;
 
 import com.niglesiasm.eduapp.model.Profesor;
 import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
+import com.niglesiasm.eduapp.service.asignatura.AsignaturaMapper;
 import com.niglesiasm.eduapp.service.persona.PersonaDTO;
 import com.niglesiasm.eduapp.service.persona.PersonaMapper;
 import com.niglesiasm.eduapp.service.profesor.ProfesorDTO;
@@ -19,9 +20,12 @@ public class ProfesorMapperImpl implements ProfesorMapper {
 
     PersonaMapper personaMapper;
 
+    AsignaturaMapper asignaturaMapper;
+
     @Autowired
-    public ProfesorMapperImpl(PersonaMapper personaMapper) {
+    public ProfesorMapperImpl(PersonaMapper personaMapper, AsignaturaMapper asignaturaMapper) {
         this.personaMapper = personaMapper;
+        this.asignaturaMapper = asignaturaMapper;
     }
 
     @Override
@@ -82,5 +86,17 @@ public class ProfesorMapperImpl implements ProfesorMapper {
 
         // Retornar la lista directamente
         return new ArrayList<>(profesorMap.values());
+    }
+
+    @Override
+    public Profesor profesorDTOToProfesor(ProfesorDTO profesorDTO) {
+        if (profesorDTO == null) {
+            return null;
+        }
+        Profesor profesor = new Profesor();
+        profesor.setId(profesorDTO.getIdProfesor());
+        profesor.setPersona(this.personaMapper.personaDTOToPersona(profesorDTO.getPersona()));
+        profesor.setAsignaturas(this.asignaturaMapper.asignaturasDTOToAsignaturas(profesorDTO.getAsignaturas()));
+        return profesor;
     }
 }

@@ -10,4 +10,8 @@ public interface AsignaturaMapper {
     AsignaturaDTO asignaturaToAsignaturaDTO(Asignatura asignatura);
 
     List<AsignaturaDTO> asignaturasToAsignaturasDTO(Set<Asignatura> asignaturas);
+
+    Asignatura asignaturaDTOToAsignatura(AsignaturaDTO asignaturaDTO);
+
+    List<Asignatura> asignaturasDTOToAsignaturas(List<AsignaturaDTO> asignaturasDTO);
 }

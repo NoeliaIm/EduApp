@@ -9,4 +9,6 @@ public interface ProfesorMapper {
     ProfesorDTO profesorToProfesorDTO(Profesor profesor);
 
     List<ProfesorDTO> profesoresToProfesoresDTO(List<Object[]> profesores);
+
+    Profesor profesorDTOToProfesor(ProfesorDTO profesorDTO);
 }

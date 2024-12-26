@@ -36,4 +36,31 @@ public class PersonaMapperImpl implements PersonaMapper {
         }
         return list;
     }
+
+
+    @Override
+    public Persona personaDTOToPersona(PersonaDTO personaDTO) {
+        if (personaDTO == null) {
+            return null;
+        }
+        Persona persona = new Persona();
+        persona.setId(personaDTO.getId());
+        persona.setNombre(personaDTO.getNombre());
+        persona.setApellido1(personaDTO.getApellido1());
+        persona.setApellido2(personaDTO.getApellido2());
+        persona.setEmail(personaDTO.getEmail());
+        return persona;
+    }
+
+    @Override
+    public List<Persona> personasDTOToPersonas(List<PersonaDTO> personaDTOs) {
+        if (personaDTOs == null) {
+            return null;
+        }
+        List<Persona> list = new ArrayList<Persona>(personaDTOs.size());
+        for (PersonaDTO personaDTO : personaDTOs) {
+            list.add(personaDTOToPersona(personaDTO));
+        }
+        return list;
+    }
 }
