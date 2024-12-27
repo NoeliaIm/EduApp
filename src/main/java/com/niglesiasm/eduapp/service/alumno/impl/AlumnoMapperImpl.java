@@ -19,10 +19,7 @@ import com.niglesiasm.eduapp.service.persona.PersonaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AlumnoMapperImpl implements AlumnoMapper {
@@ -74,6 +71,7 @@ public class AlumnoMapperImpl implements AlumnoMapper {
         alumnoDTO.setIdiomas(idiomas);
 
         List<AlumnoAmbitoDTO> ambitos = this.alumnoAmbitoMapper.alumnosAmbitoToAlumnosAmbitoDTO(entity.getAmbitos());
+        ambitos.sort(Comparator.comparing(a -> a.getAmbito().getIdAmbito()));
         alumnoDTO.setAmbitos(ambitos);
         return alumnoDTO;
     }

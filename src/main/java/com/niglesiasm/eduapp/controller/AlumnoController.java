@@ -42,7 +42,7 @@ public class AlumnoController {
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         alumnoService.deleteById(id);
     }
 }

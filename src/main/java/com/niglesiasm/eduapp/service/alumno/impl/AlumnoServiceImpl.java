@@ -63,6 +63,9 @@ public class AlumnoServiceImpl implements AlumnoService {
         // comprobaciones previas
         this.comprobarIdiomas(alumnoDTO);
 
+        // comprobar nacionalidad
+        this.comprobarNacionalidad(alumnoDTO);
+
         if (alumnoDTO.getPersona().getId() == null) {
             Persona persona = new Persona();
             persona.setNombre(alumnoDTO.getPersona().getNombre());
@@ -127,22 +130,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 
                     // Limpiar idiomas existentes manteniendo la colección
                     alumnoBBDD.getIdiomas().clear();
+                    alumnoBBDD.getIdiomas().addAll(idiomasDTO);
 
-                    // Agregar los nuevos idiomas a la colección existente
-                    for (AlumnoIdioma idioma : idiomasDTO) {
-                        AlumnoIdiomaId id = new AlumnoIdiomaId();
-                        id.setAlumno(alumnoBBDD);
-                        id.setIdioma(idioma.getId().getIdioma());
+                    idiomasDTO.forEach(idioma -> idioma.getId().setAlumno(alumnoBBDD));
 
-                        AlumnoIdioma nuevoIdioma = new AlumnoIdioma();
-                        nuevoIdioma.setId(id);
-                        nuevoIdioma.setNivelIdioma(idioma.getNivelIdioma());
-
-                        alumnoBBDD.getIdiomas().add(nuevoIdioma);
-                    }
                 }
 
-                alumnoDao.save(alumnoBBDD);
 
                 // Manejar ámbitos
                 for (AlumnoAmbitoDTO ambitoDTO : alumnoDTO.getAmbitos()) {
@@ -161,6 +154,12 @@ public class AlumnoServiceImpl implements AlumnoService {
 
                 alumnoDao.save(alumnoBBDD);
             }
+        }
+    }
+
+    private void comprobarNacionalidad(AlumnoDTO alumnoDTO) {
+        if (Boolean.TRUE.equals(alumnoDTO.getExtranjero()) && alumnoDTO.getNacionalidad().isEmpty()) {
+            alumnoDTO.setExtranjero(false);
         }
     }
 
@@ -192,7 +191,11 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
 
+        Alumno alumno = alumnoDao.findById(id).orElseThrow(() -> new IllegalArgumentException("No se encontró el alumno con id " + id));
+
+        alumno.getPersona().setFechaBaja(LocalDate.now());
+        alumnoDao.save(alumno);
     }
 }
