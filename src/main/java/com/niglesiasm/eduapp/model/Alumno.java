@@ -25,7 +25,7 @@ public class Alumno {
     private Long numeroExpediente;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_persona", nullable = false)
     private Persona persona;
 
@@ -35,7 +35,7 @@ public class Alumno {
     private Curso curso;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_nacionalidad", nullable = false)
     private Nacionalidad nacionalidad;

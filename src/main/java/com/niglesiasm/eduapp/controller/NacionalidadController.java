@@ -26,7 +26,7 @@ public class NacionalidadController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Nacionalidad> getById(@PathVariable Long id) {
+    public Optional<Nacionalidad> getById(@PathVariable Integer id) {
         return nacionalidadService.findById(id);
     }
 
@@ -36,7 +36,7 @@ public class NacionalidadController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         nacionalidadService.deleteById(id);
     }
 }

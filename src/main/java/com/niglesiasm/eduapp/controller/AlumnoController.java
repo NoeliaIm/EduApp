@@ -1,9 +1,10 @@
 package com.niglesiasm.eduapp.controller;
 
-import com.niglesiasm.eduapp.model.Alumno;
 import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
 import com.niglesiasm.eduapp.service.alumno.AlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +28,16 @@ public class AlumnoController {
     }
 
     @PostMapping
-    public Alumno create(@RequestBody Alumno alumno) {
-        return alumnoService.save(alumno);
+    public ResponseEntity<String> create(@RequestBody AlumnoDTO alumnoDTO) {
+// TODO propagar excepción al front
+        try {
+            this.alumnoService.createOrUpdateAlumno(alumnoDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Error: " + e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

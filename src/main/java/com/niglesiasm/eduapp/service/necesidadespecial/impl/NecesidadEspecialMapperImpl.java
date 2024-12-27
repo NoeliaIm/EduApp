@@ -28,4 +28,21 @@ public class NecesidadEspecialMapperImpl implements NecesidadEspecialMapper {
         }
         return necesidadEspecialDTOS;
     }
+
+    @Override
+    public NecesidadEspecial necesidadEspecialDTOToNecesidadEspecial(NecesidadEspecialDTO necesidadEspecialDTO) {
+        if (necesidadEspecialDTO == null) {
+            return null;
+        }
+        NecesidadEspecial necesidadEspecial = new NecesidadEspecial();
+        necesidadEspecial.setId(necesidadEspecialDTO.getIdNecesidadEspecial());
+        necesidadEspecial.setDescripcion(necesidadEspecialDTO.getNombreNecesidadEspecial());
+        return necesidadEspecial;
+    }
+
+    @Override
+    public Set<NecesidadEspecial> necesidadesEspecialesDTOToNecesidadesEspeciales(List<NecesidadEspecialDTO> necesidadesEspecialesDTO) {
+        return necesidadesEspecialesDTO.stream().map(this::necesidadEspecialDTOToNecesidadEspecial).collect(java.util.stream.Collectors.toSet());
+    }
 }
+

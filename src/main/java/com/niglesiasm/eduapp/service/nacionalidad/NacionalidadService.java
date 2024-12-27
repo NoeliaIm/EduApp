@@ -22,7 +22,7 @@ public class NacionalidadService {
         return repository.findAll();
     }
 
-    public Optional<Nacionalidad> findById(Long id) {
+    public Optional<Nacionalidad> findById(Integer id) {
         return repository.findById(id);
     }
 
@@ -30,7 +30,7 @@ public class NacionalidadService {
         return repository.save(entity);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         repository.deleteById(id);
     }
 }

@@ -1,6 +1,9 @@
 package com.niglesiasm.eduapp.service.alumnoambito.impl;
 
 import com.niglesiasm.eduapp.model.AlumnoAmbito;
+import com.niglesiasm.eduapp.model.AlumnoAmbitoId;
+import com.niglesiasm.eduapp.model.AmbitoAcademico;
+import com.niglesiasm.eduapp.model.NivelAcademico;
 import com.niglesiasm.eduapp.service.alumnoambito.AlumnoAmbitoDTO;
 import com.niglesiasm.eduapp.service.alumnoambito.AlumnoAmbitoMapper;
 import com.niglesiasm.eduapp.service.alumnoambito.AmbitoDTO;
@@ -35,5 +38,35 @@ public class AlumnoAmbitoMapperImpl implements AlumnoAmbitoMapper {
             alumnoAmbitoDTOS.add(alumnoAmbitoToAlumnoAmbitoDTO(alumnoAmbito));
         }
         return alumnoAmbitoDTOS;
+    }
+
+
+    @Override
+    public AlumnoAmbito alumnoAmbitoDTOToAlumnoAmbito(AlumnoAmbitoDTO alumnoAmbitoDTO) {
+
+        AlumnoAmbito alumnoAmbito = new AlumnoAmbito();
+
+        // Crear y establecer el ID compuesto
+        AlumnoAmbitoId id = new AlumnoAmbitoId();
+
+        AmbitoAcademico ambito = new AmbitoAcademico();
+        ambito.setId(alumnoAmbitoDTO.getAmbito().getIdAmbito());
+        ambito.setNombre(alumnoAmbitoDTO.getAmbito().getNombreAmbito());
+        id.setAmbito(ambito);
+
+        alumnoAmbito.setId(id);
+
+        // Establecer el nivel académico
+        NivelAcademico nivelAcademico = new NivelAcademico();
+        nivelAcademico.setId(alumnoAmbitoDTO.getNivelAcademico().getIdNivelAcademico());
+        nivelAcademico.setDescripcion(alumnoAmbitoDTO.getNivelAcademico().getNombreNivelAcademico());
+        alumnoAmbito.setNivelAcademico(nivelAcademico);
+
+        return alumnoAmbito;
+    }
+
+    @Override
+    public Set<AlumnoAmbito> alumnosAmbitoDTOToAlumnosAmbito(List<AlumnoAmbitoDTO> alumnosAmbitoDTO) {
+        return alumnosAmbitoDTO.stream().map(this::alumnoAmbitoDTOToAlumnoAmbito).collect(java.util.stream.Collectors.toSet());
     }
 }

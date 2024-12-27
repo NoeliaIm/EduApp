@@ -39,4 +39,4 @@ logging:
     org.springframework.boot.context.config: TRACE
 app:
   pais:
-    default: 7
+    defaultPais: 7

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -41,11 +40,6 @@ public class ProfesorServiceImpl implements ProfesorService {
     }
 
     @Override
-    public Optional<Profesor> findById(Integer id) {
-        return Optional.empty();
-    }
-
-    @Override
     @Transactional
     public void guardarOActualizarProfesor(ProfesorDTO profesorDTO) {
         // encontrar profesor por email
@@ -65,7 +59,7 @@ public class ProfesorServiceImpl implements ProfesorService {
             persona.setApellido1(profesorDTO.getPersona().getApellido1());
             persona.setApellido2(profesorDTO.getPersona().getApellido2());
             persona.setEmail(profesorDTO.getPersona().getEmail());
-            persona.setFecha_alta(LocalDate.now());
+            persona.setFechaAlta(LocalDate.now());
             persona.setRoles(Set.of(Rol.PROF));
             Profesor newProfesor = new Profesor();
             newProfesor.setPersona(persona);

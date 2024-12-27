@@ -2,6 +2,8 @@ package com.niglesiasm.eduapp.service.alumno.impl;
 
 import com.niglesiasm.eduapp.config.PaisProperties;
 import com.niglesiasm.eduapp.model.Alumno;
+import com.niglesiasm.eduapp.model.Nacionalidad;
+import com.niglesiasm.eduapp.repository.nacionalidad.NacionalidadDao;
 import com.niglesiasm.eduapp.service.alumno.AlumnoDTO;
 import com.niglesiasm.eduapp.service.alumno.AlumnoMapper;
 import com.niglesiasm.eduapp.service.alumnoambito.AlumnoAmbitoDTO;
@@ -18,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlumnoMapperImpl implements AlumnoMapper {
@@ -29,15 +33,17 @@ public class AlumnoMapperImpl implements AlumnoMapper {
     private final PaisProperties paisProperties;
     private final AlumnoIdiomaMapper alumnoIdiomaMapper;
     private final AlumnoAmbitoMapper alumnoAmbitoMapper;
+    private final NacionalidadDao nacionalidadDao;
 
     @Autowired
-    public AlumnoMapperImpl(PersonaMapper personaMapper, AsignaturaMapper asignaturaMapper, NecesidadEspecialMapper necesidadEspecialMapper, PaisProperties paisProperties, AlumnoIdiomaMapper alumnoIdiomaMapper, AlumnoAmbitoMapper alumnoAmbitoMapper) {
+    public AlumnoMapperImpl(PersonaMapper personaMapper, AsignaturaMapper asignaturaMapper, NecesidadEspecialMapper necesidadEspecialMapper, PaisProperties paisProperties, AlumnoIdiomaMapper alumnoIdiomaMapper, AlumnoAmbitoMapper alumnoAmbitoMapper, NacionalidadDao nacionalidadDao) {
         this.personaMapper = personaMapper;
         this.asignaturaMapper = asignaturaMapper;
         this.necesidadEspecialMapper = necesidadEspecialMapper;
         this.paisProperties = paisProperties;
         this.alumnoIdiomaMapper = alumnoIdiomaMapper;
         this.alumnoAmbitoMapper = alumnoAmbitoMapper;
+        this.nacionalidadDao = nacionalidadDao;
     }
 
     @Override
@@ -52,7 +58,7 @@ public class AlumnoMapperImpl implements AlumnoMapper {
         alumnoDTO.setNumeroExpediente(entity.getNumeroExpediente());
 
         PersonaDTO personaDTO = personaMapper.personaToPersonaDTO(entity.getPersona());
-        alumnoDTO.setPersonaDTO(personaDTO);
+        alumnoDTO.setPersona(personaDTO);
 
         List<AsignaturaDTO> asignaturas = this.asignaturaMapper.asignaturasToAsignaturasDTO(entity.getAsignaturas());
         alumnoDTO.setAsignaturas(asignaturas);
@@ -86,4 +92,33 @@ public class AlumnoMapperImpl implements AlumnoMapper {
         return list;
     }
 
+
+    @Override
+    public Alumno alumnoDTOToAlumno(AlumnoDTO alumnoDTO) {
+        if (alumnoDTO == null) {
+            return null;
+        }
+        if (alumnoDTO.getPersona() == null) {
+            return null;
+        }
+        Alumno alumno = new Alumno();
+        alumno.setId(alumnoDTO.getId());
+        alumno.setNumeroExpediente(alumnoDTO.getNumeroExpediente());
+        alumno.setAsignaturas(new HashSet<>(this.asignaturaMapper.asignaturasDTOToAsignaturas(alumnoDTO.getAsignaturas())));
+        alumno.setNecesidadesEspeciales(this.necesidadEspecialMapper.necesidadesEspecialesDTOToNecesidadesEspeciales(alumnoDTO.getNecesidadesEspeciales()));
+        Optional<Nacionalidad> nacionalidad;
+        if (Boolean.FALSE.equals(alumnoDTO.getExtranjero())) {
+            nacionalidad = this.nacionalidadDao.findById(this.paisProperties.getDefaultPais());
+        } else {
+            nacionalidad = this.nacionalidadDao.findByNombre(alumnoDTO.getNacionalidad());
+        }
+        nacionalidad.ifPresent(alumno::setNacionalidad);
+        if (nacionalidad.isPresent()) {
+            return alumno;
+        }
+        Nacionalidad newNacionalidad = new Nacionalidad();
+        newNacionalidad.setNombre(alumnoDTO.getNacionalidad());
+        alumno.setNacionalidad(newNacionalidad);
+        return alumno;
+    }
 }

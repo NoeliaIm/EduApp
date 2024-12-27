@@ -15,4 +15,6 @@ public interface AlumnoService {
     Alumno save(Alumno entity);
 
     void deleteById(Long id);
+
+    void createOrUpdateAlumno(AlumnoDTO alumnoDTO);
 }

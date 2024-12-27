@@ -42,10 +42,10 @@ public class Persona {
 
     @NotNull
     @Column(name = "fecha_alta", nullable = false)
-    private LocalDate fecha_alta;
+    private LocalDate fechaAlta;
 
     @Column(name = "fecha_baja")
-    private LocalDate fecha_baja;
+    private LocalDate fechaBaja;
 
 
     @ElementCollection(fetch = FetchType.EAGER)

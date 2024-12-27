@@ -28,8 +28,7 @@ public class AsignaturaServiceImpl implements AsignaturaService {
 
     @Override
     public List<AsignaturaDTO> getAsignaturasAll() {
-        List<AsignaturaDTO> asignaturas = asignaturaDao.obtenerAsignaturasByAnnioActual();
-        return asignaturas;
+        return asignaturaDao.obtenerAsignaturasByAnnioActual();
     }
 
     @Override
@@ -54,7 +53,7 @@ public class AsignaturaServiceImpl implements AsignaturaService {
         asignatura.setDescripcion(asignaturaDTO.getDescripcion());
         asignatura.setAcron(asignaturaDTO.getAcron());
         Curso curso = this.cursoDao.findById(asignaturaDTO.getIdCurso()).orElseThrow();
-        asignatura.setIdCurso(curso);
+        asignatura.setCurso(curso);
         this.asignaturaDao.guardarAsignatura(asignatura);
     }
 

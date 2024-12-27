@@ -40,7 +40,7 @@ public class AsignaturaDaoHibernate extends SimpleJpaRepository<Asignatura, Inte
         CriteriaQuery<AsignaturaDTO> criteriaQuery = criteriaBuilder.createQuery(AsignaturaDTO.class);
         Root<Asignatura> asignaturaRoot = criteriaQuery.from(Asignatura.class);
 
-        Join<Object, Object> cursoJoin = asignaturaRoot.join("idCurso");
+        Join<Object, Object> cursoJoin = asignaturaRoot.join("curso");
         Join<Object, Object> annioJoin = cursoJoin.join("idAnio");
         Join<Object, Object> nombreCursoJoin = cursoJoin.join("idNombre");
 

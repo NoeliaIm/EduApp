@@ -1,18 +1,17 @@
 package com.niglesiasm.eduapp.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
-@Component
+@Setter
+@Getter
+@Configuration
 @ConfigurationProperties(prefix = "app.pais")
 public class PaisProperties {
+
+
     private Integer defaultPais;
 
-    public Integer getDefaultPais() {
-        return defaultPais;
-    }
-
-    public void setDefaultPais(Integer defaultPais) {
-        this.defaultPais = defaultPais;
-    }
 }

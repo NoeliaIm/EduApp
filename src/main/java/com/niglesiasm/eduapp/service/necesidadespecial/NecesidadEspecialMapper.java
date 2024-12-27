@@ -10,4 +10,8 @@ public interface NecesidadEspecialMapper {
     NecesidadEspecialDTO necesidadEspecialToNecesidadEspecialDTO(NecesidadEspecial necesidadEspecial);
 
     List<NecesidadEspecialDTO> necesidadesEspecialesToNecesidadesEspecialesDTO(Set<NecesidadEspecial> necesidadesEspeciales);
+
+    NecesidadEspecial necesidadEspecialDTOToNecesidadEspecial(NecesidadEspecialDTO necesidadEspecialDTO);
+
+    Set<NecesidadEspecial> necesidadesEspecialesDTOToNecesidadesEspeciales(List<NecesidadEspecialDTO> necesidadesEspecialesDTO);
 }

@@ -10,4 +10,8 @@ public interface AlumnoAmbitoMapper {
     AlumnoAmbitoDTO alumnoAmbitoToAlumnoAmbitoDTO(AlumnoAmbito alumnoAmbito);
 
     List<AlumnoAmbitoDTO> alumnosAmbitoToAlumnosAmbitoDTO(Set<AlumnoAmbito> alumnosAmbito);
+
+    AlumnoAmbito alumnoAmbitoDTOToAlumnoAmbito(AlumnoAmbitoDTO alumnoAmbitoDTO);
+
+    Set<AlumnoAmbito> alumnosAmbitoDTOToAlumnosAmbito(List<AlumnoAmbitoDTO> alumnosAmbitoDTO);
 }

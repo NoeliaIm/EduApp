@@ -10,4 +10,8 @@ public interface IdiomaMapper {
     IdiomaDTO idiomaToIdiomaDTO(Idioma idioma);
 
     List<IdiomaDTO> idiomasToIdiomasDTO(Set<Idioma> idiomas);
+
+    Idioma idiomaDTOToIdioma(IdiomaDTO idiomaDTO);
+
+    Set<Idioma> idiomasDTOToIdiomas(List<IdiomaDTO> idiomasDTO);
 }

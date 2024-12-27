@@ -16,7 +16,7 @@ public class AlumnoDTO {
 
     private Integer id;
     private Long numeroExpediente;
-    private PersonaDTO personaDTO;
+    private PersonaDTO persona;
     private List<AsignaturaDTO> asignaturas;
     private List<NecesidadEspecialDTO> necesidadesEspeciales;
     private List<AlumnoIdiomaDTO> idiomas;

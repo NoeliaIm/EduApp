@@ -9,4 +9,6 @@ public interface AlumnoMapper {
     AlumnoDTO alumnoToAlumnoDTO(Alumno alumno);
 
     List<AlumnoDTO> alumnosToAlumnosDTO(List<Alumno> alumnos);
+
+    Alumno alumnoDTOToAlumno(AlumnoDTO alumnoDTO);
 }

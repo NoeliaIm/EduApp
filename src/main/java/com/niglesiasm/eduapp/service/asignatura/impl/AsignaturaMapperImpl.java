@@ -30,7 +30,8 @@ public class AsignaturaMapperImpl implements AsignaturaMapper {
         asignaturaDTO.setNombreAsignatura(asignatura.getNombreAsignatura());
         asignaturaDTO.setDescripcion(asignatura.getDescripcion());
         asignaturaDTO.setAcron(asignatura.getAcron());
-        asignaturaDTO.setNombreCurso(asignatura.getIdCurso().getNombreCurso()); // TODO: cambiar nombrea  a curso en la entidad
+        asignaturaDTO.setIdCurso(asignatura.getCurso().getId());
+        asignaturaDTO.setNombreCurso(asignatura.getCurso().getNombreCurso());
         return asignaturaDTO;
     }
 
@@ -54,7 +55,7 @@ public class AsignaturaMapperImpl implements AsignaturaMapper {
         asignatura.setDescripcion(asignaturaDTO.getDescripcion());
         asignatura.setAcron(asignaturaDTO.getAcron());
         Curso curso = this.cursoDao.findById(asignaturaDTO.getIdCurso()).orElseThrow();
-        asignatura.setIdCurso(curso);
+        asignatura.setCurso(curso);
         return asignatura;
     }
 

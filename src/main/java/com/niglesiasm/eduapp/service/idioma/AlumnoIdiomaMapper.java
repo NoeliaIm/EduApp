@@ -10,4 +10,8 @@ public interface AlumnoIdiomaMapper {
     AlumnoIdiomaDTO alumnoIdiomaToAlumnoIdiomaDTO(AlumnoIdioma alumnoIdioma);
 
     List<AlumnoIdiomaDTO> alumnosIdiomasToAlumnosIdiomasDTO(Set<AlumnoIdioma> alumnosIdiomas);
+
+    AlumnoIdioma alumnoIdiomaDTOToAlumnoIdioma(AlumnoIdiomaDTO alumnoIdiomaDTO);
+
+    Set<AlumnoIdioma> alumnosIdiomasDTOToAlumnosIdiomas(List<AlumnoIdiomaDTO> alumnosIdiomasDTO);
 }

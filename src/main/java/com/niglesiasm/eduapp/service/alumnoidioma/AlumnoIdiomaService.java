@@ -22,7 +22,7 @@ public class AlumnoIdiomaService {
         return repository.findAll();
     }
 
-    public Optional<AlumnoIdioma> findById(Long id) {
+    public Optional<AlumnoIdioma> findById(Integer id) {
         return repository.findById(id);
     }
 
@@ -30,7 +30,7 @@ public class AlumnoIdiomaService {
         return repository.save(entity);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         repository.deleteById(id);
     }
 }

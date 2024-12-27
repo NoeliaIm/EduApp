@@ -21,7 +21,7 @@ public class AlumnoIdiomaController {
     }
 
     @GetMapping("/{id}")
-    public Optional<AlumnoIdioma> getById(@PathVariable Long id) {
+    public Optional<AlumnoIdioma> getById(@PathVariable Integer id) {
         return alumnoIdiomaService.findById(id);
     }
 
@@ -32,7 +32,7 @@ public class AlumnoIdiomaController {
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Integer id) {
         alumnoIdiomaService.deleteById(id);
     }
 }

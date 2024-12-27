@@ -27,7 +27,7 @@ public class Asignatura {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_curso", nullable = false)
-    private Curso idCurso;
+    private Curso curso;
 
     @Size(max = 255)
     @Column(name = "descripcion")
