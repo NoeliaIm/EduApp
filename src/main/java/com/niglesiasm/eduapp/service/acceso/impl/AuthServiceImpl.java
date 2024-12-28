@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public boolean solicitarAcceso(String email) {
+    public boolean solicitarAcceso(String email) throws Exception {
         // Verificar que el email exista en personas
         if (!personaDao.existsByEmail(email)) {
             throw new ResponseStatusException(

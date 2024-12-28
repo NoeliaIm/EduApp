@@ -34,9 +34,20 @@ spring:
           auth: true
           starttls:
             enable: true
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .html
+    cache: false
+    charset: utf-8
+    check-template-location: true
+    content-type: text/html
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
 logging:
   level:
     org.springframework.boot.context.config: TRACE
 app:
+  base-url: http://localhost:5173
   pais:
     defaultPais: 7

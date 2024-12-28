@@ -1,11 +1,11 @@
 package com.niglesiasm.eduapp.service.email.impl;
 
 import com.niglesiasm.eduapp.service.email.EmailService;
+import com.niglesiasm.eduapp.service.email.EmailTemplateService;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,26 +15,40 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
 
 
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+    private final EmailTemplateService emailTemplateService;
 
     @Value("${spring.mail.username}")
     private String fromEmail;
+    @Value("${app.base-url}")
+    private String baseUrl;
 
 
     @Autowired
-    public EmailServiceImpl(JavaMailSender mailSender) {
+    public EmailServiceImpl(JavaMailSender mailSender, EmailTemplateService emailTemplateService) {
         this.mailSender = mailSender;
+        this.emailTemplateService = emailTemplateService;
     }
 
     @Override
     public void enviarTokenAcceso(String email, String token) {
-        SimpleMailMessage mensaje = new SimpleMailMessage();
-        mensaje.setTo(email);
-        mensaje.setSubject("Tu Token de Acceso");
-        mensaje.setText("Tu token de acceso es: " + token +
-                "\nCaducará en 15 minutos.");
+        try {
 
-        this.enviarEmail(email, mensaje.getSubject(), mensaje.getText());
+            String contenidoHtml = emailTemplateService.generateEmailContent(token, baseUrl);
+
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+            helper.setFrom(fromEmail);
+            helper.setTo(email);
+            helper.setSubject("Tu Token de Acceso");
+            helper.setText(contenidoHtml, true);
+
+            mailSender.send(mimeMessage);
+            log.info("Email de acceso enviado a: {}", maskEmail(email));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al enviar el email", e);
+        }
     }
 
 
