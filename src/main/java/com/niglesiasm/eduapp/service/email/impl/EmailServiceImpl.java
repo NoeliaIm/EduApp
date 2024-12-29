@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
     public void enviarTokenAcceso(String email, String token) {
         try {
 
-            String contenidoHtml = emailTemplateService.generateEmailContent(token, baseUrl);
+            String contenidoHtml = emailTemplateService.generateEmailContent(token, baseUrl, email);
 
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

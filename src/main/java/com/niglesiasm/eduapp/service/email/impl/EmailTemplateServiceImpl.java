@@ -21,12 +21,13 @@ public class EmailTemplateServiceImpl implements EmailTemplateService {
         this.configuration = freeMarkerConfigurer.getConfiguration();
     }
 
-    public String generateEmailContent(String token, String baseUrl) throws Exception {
+    public String generateEmailContent(String token, String baseUrl, String email) throws Exception {
         Template template = configuration.getTemplate("email-template.html");
 
         Map<String, Object> model = new HashMap<>();
         model.put("token", token);
         model.put("baseUrl", baseUrl);
+        model.put("email", email);
 
         StringWriter writer = new StringWriter();
         template.process(model, writer);

@@ -18,19 +18,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private PersonaDao personaDao;
+    private final PersonaDao personaDao;
+
+    private final TokenService tokenService;
+
+    private final EmailService emailService;
+
 
     @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private EmailService emailService;
+    public AuthServiceImpl(PersonaDao personaDao, TokenService tokenService, EmailService emailService) {
+        this.personaDao = personaDao;
+        this.tokenService = tokenService;
+        this.emailService = emailService;
+    }
 
     @Override
     @Transactional
@@ -78,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
     private String generarJWTAcceso(String email) {
         Optional<Persona> persona = personaDao.findByEmail(email);
 
-        List<String> roles = persona.map(p -> p.getRoles().stream().map(Rol::getName).collect(Collectors.toList())).orElse(new ArrayList<>());
+        List<Rol> roles = persona.map(p -> new ArrayList<>(p.getRoles())).orElse(new ArrayList<>());
 
         return persona.map(p -> Jwts.builder()
                 .setHeaderParam("typ", "JWT")
