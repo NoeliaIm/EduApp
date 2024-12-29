@@ -1,6 +1,8 @@
 package com.niglesiasm.eduapp.service.assistant;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface EduAssistantService {
 
-    String getExample(String input);
+    String getExample(MultipartFile file, String input);
 }

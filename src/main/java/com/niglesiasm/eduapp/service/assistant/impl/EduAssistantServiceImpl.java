@@ -3,9 +3,14 @@ package com.niglesiasm.eduapp.service.assistant.impl;
 import com.niglesiasm.eduapp.service.assistant.EduAssistantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class EduAssistantServiceImpl implements EduAssistantService {
@@ -19,21 +24,29 @@ public class EduAssistantServiceImpl implements EduAssistantService {
     }
 
     @Override
-    public String getExample(String input) {
+    public String getExample(MultipartFile file, String input) {
 
-        // Crear la solicitud HTTP
-        HttpEntity<String> request = new HttpEntity<>(null);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        String encodedInput = java.net.URLEncoder.encode(input, java.nio.charset.StandardCharsets.UTF_8);
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("input_message", input);
+
+        if (file != null) {
+            body.add("file", file.getResource());
+        }
+
+        HttpEntity<MultiValueMap<String, Object>> request =
+                new HttpEntity<>(body, headers);
 
         StringBuilder urlFlow = new StringBuilder();
-        urlFlow.append(BASE_URL + "run_langflow_historia?input_message=");
-        urlFlow.append(encodedInput);
+        urlFlow.append(BASE_URL + "run_langflow_historia");
 
-        // Realizar la llamada POST
-        ResponseEntity<String> response = restTemplate.postForEntity(urlFlow.toString(), request, String.class);
-
-
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                urlFlow.toString(),
+                request,
+                String.class
+        );
         // Retornar la respuesta
         return response.getBody();
     }
