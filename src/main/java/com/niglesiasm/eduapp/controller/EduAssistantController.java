@@ -15,9 +15,15 @@ public class EduAssistantController {
         this.eduAssistantService = eduAssistantService;
     }
 
-    // Endpoint de tu API que llama a la API externa
+    // Endpoint que llama a la API externa para hacer una consulta desde el chat
     @PostMapping("/api/edu-assistant/example")
     public String getExampleData(@RequestParam("input") String input, @RequestParam(value = "file", required = false) MultipartFile file) {
         return eduAssistantService.getExample(file, input);
+    }
+
+    // Endpoint que llama a la API externa para subir un archivo a la base de datos de embeddings
+    @PostMapping("/api/edu-assistant/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile formData) {
+        return eduAssistantService.uploadFile(formData);
     }
 }

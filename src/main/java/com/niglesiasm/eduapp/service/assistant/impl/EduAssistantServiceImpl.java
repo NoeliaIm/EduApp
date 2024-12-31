@@ -50,4 +50,25 @@ public class EduAssistantServiceImpl implements EduAssistantService {
         // Retornar la respuesta
         return response.getBody();
     }
+
+
+    @Override
+    public String uploadFile(MultipartFile file) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("file", file.getResource());
+
+        HttpEntity<MultiValueMap<String, Object>> request =
+                new HttpEntity<>(body, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                BASE_URL + "upload",
+                request,
+                String.class
+        );
+        // Retornar la respuesta
+        return response.getBody();
+    }
 }
