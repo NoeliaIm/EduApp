@@ -6,5 +6,5 @@ public interface EduAssistantService {
 
     String getExample(MultipartFile file, String input);
 
-    String uploadFile(MultipartFile file);
+    String uploadFile(MultipartFile file, String subjectId);
 }

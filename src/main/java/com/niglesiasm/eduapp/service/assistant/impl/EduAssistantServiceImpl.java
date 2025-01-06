@@ -1,11 +1,9 @@
 package com.niglesiasm.eduapp.service.assistant.impl;
 
+import com.niglesiasm.eduapp.service.archivo.ArchivoService;
 import com.niglesiasm.eduapp.service.assistant.EduAssistantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -15,12 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class EduAssistantServiceImpl implements EduAssistantService {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+    private final ArchivoService archivoService;
     private static final String BASE_URL = "http://127.0.0.1:8000/";
 
     @Autowired
-    public EduAssistantServiceImpl(RestTemplate restTemplate) {
+    public EduAssistantServiceImpl(RestTemplate restTemplate, ArchivoService archivoService) {
         this.restTemplate = restTemplate;
+        this.archivoService = archivoService;
+
     }
 
     @Override
@@ -53,7 +54,7 @@ public class EduAssistantServiceImpl implements EduAssistantService {
 
 
     @Override
-    public String uploadFile(MultipartFile file) {
+    public String uploadFile(MultipartFile file, String subjectId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -68,7 +69,15 @@ public class EduAssistantServiceImpl implements EduAssistantService {
                 request,
                 String.class
         );
+
+
+        if (subjectId == null || !response.getStatusCode().equals(HttpStatus.OK)) {
+            throw new IllegalArgumentException("Invalid input parameters or response");
+        }
+
+        this.archivoService.guardarDatosArchivo(file, subjectId);
         // Retornar la respuesta
         return response.getBody();
     }
+
 }

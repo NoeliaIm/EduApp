@@ -23,7 +23,7 @@ public class EduAssistantController {
 
     // Endpoint que llama a la API externa para subir un archivo a la base de datos de embeddings
     @PostMapping("/api/edu-assistant/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile formData) {
-        return eduAssistantService.uploadFile(formData);
+    public String uploadFile(@RequestParam("file") MultipartFile formData, @RequestParam("subjectId") String subjectId) {
+        return eduAssistantService.uploadFile(formData, subjectId);
     }
 }
