@@ -20,9 +20,9 @@ public class Archivo {
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_asignatura", nullable = false)
-    private Asignatura idAsignatura;
+    private Asignatura asignatura;
 
     @Size(max = 255)
     @NotNull

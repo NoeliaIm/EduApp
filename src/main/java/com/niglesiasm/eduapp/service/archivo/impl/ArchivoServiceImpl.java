@@ -4,10 +4,14 @@ import com.niglesiasm.eduapp.model.Archivo;
 import com.niglesiasm.eduapp.model.Asignatura;
 import com.niglesiasm.eduapp.repository.archivo.ArchivoDao;
 import com.niglesiasm.eduapp.repository.asignatura.AsignaturaDao;
+import com.niglesiasm.eduapp.service.archivo.ArchivoDTO;
+import com.niglesiasm.eduapp.service.archivo.ArchivoMapper;
 import com.niglesiasm.eduapp.service.archivo.ArchivoService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 public class ArchivoServiceImpl implements ArchivoService {
@@ -15,11 +19,13 @@ public class ArchivoServiceImpl implements ArchivoService {
 
     private final AsignaturaDao asignaturaDao;
     private final ArchivoDao archivoDao;
+    private final ArchivoMapper archivoMapper;
 
 
-    public ArchivoServiceImpl(AsignaturaDao asignaturaDao, ArchivoDao archivoDao) {
+    public ArchivoServiceImpl(AsignaturaDao asignaturaDao, ArchivoDao archivoDao, ArchivoMapper archivoMapper) {
         this.asignaturaDao = asignaturaDao;
         this.archivoDao = archivoDao;
+        this.archivoMapper = archivoMapper;
     }
 
     @Override
@@ -37,8 +43,18 @@ public class ArchivoServiceImpl implements ArchivoService {
         archivo.setFileName(file.getOriginalFilename()); // file.getName() no da el nombre real del archivo
         archivo.setIdAsignatura(asignatura);
         archivo.setFileSize(file.getSize());
-        
+
 
         return archivo;
+    }
+
+    @Override
+    public List<ArchivoDTO> getArchivosAll() {
+        List<Archivo> archivos = this.archivoDao.findAll();
+        if (!archivos.isEmpty()) {
+            archivos = archivos.stream().filter(archivo -> archivo.getDeletedDate() == null).toList();
+            return this.archivoMapper.archivosToArchivosDTO(archivos);
+        }
+        return List.of();
     }
 }
