@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -41,7 +42,7 @@ public class ArchivoServiceImpl implements ArchivoService {
 
         Archivo archivo = new Archivo();
         archivo.setFileName(file.getOriginalFilename()); // file.getName() no da el nombre real del archivo
-        archivo.setIdAsignatura(asignatura);
+        archivo.setAsignatura(asignatura);
         archivo.setFileSize(file.getSize());
 
 
@@ -56,5 +57,13 @@ public class ArchivoServiceImpl implements ArchivoService {
             return this.archivoMapper.archivosToArchivosDTO(archivos);
         }
         return List.of();
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
+        Archivo archivo = this.archivoDao.findById(id).orElseThrow(() -> new IllegalArgumentException("No se encontró el archivo con id " + id));
+        archivo.setDeletedDate(Instant.now());
+        this.archivoDao.save(archivo);
     }
 }

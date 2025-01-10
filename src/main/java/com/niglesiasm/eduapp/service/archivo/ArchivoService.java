@@ -9,4 +9,6 @@ public interface ArchivoService {
     void guardarDatosArchivo(MultipartFile file, String subjectId);
 
     List<ArchivoDTO> getArchivosAll();
+
+    void deleteById(Integer id);
 }
