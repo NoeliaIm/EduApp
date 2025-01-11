@@ -1,6 +1,7 @@
 package com.niglesiasm.eduapp.controller;
 
 import com.niglesiasm.eduapp.service.assistant.EduAssistantService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ public class EduAssistantController {
 
     // Endpoint que llama a la API externa para subir un archivo a la base de datos de embeddings
     @PostMapping("/api/edu-assistant/upload")
+    @PreAuthorize("authentication.principal.claims['roles'].contains('ADMIN') || authentication.principal.claims['roles'].contains('PROF')")
     public String uploadFile(@RequestParam("file") MultipartFile formData, @RequestParam("subjectId") String subjectId) {
         return eduAssistantService.uploadFile(formData, subjectId);
     }
