@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class AlumnoDaoHibernate extends SimpleJpaRepository<Alumno, Integer> implements AlumnoDao {
@@ -41,5 +42,20 @@ public class AlumnoDaoHibernate extends SimpleJpaRepository<Alumno, Integer> imp
         super.save(alumnoPersist);
         entityManager.flush();
         return alumnoPersist;
+    }
+
+    @Override
+    public Optional<Alumno> findByIdPersona(Integer id) {
+        String jpql = """
+                    SELECT a
+                    FROM Alumno a
+                    JOIN FETCH a.persona p
+                    WHERE p.id = :id
+                """;
+
+        return entityManager.createQuery(jpql, Alumno.class)
+                .setParameter("id", id)
+                .getResultStream()
+                .findFirst();
     }
 }

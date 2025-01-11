@@ -13,4 +13,6 @@ public interface AlumnoDao {
     Optional<Alumno> findById(Integer id);
 
     Alumno save(Alumno alumnoPersist);
+
+    Optional<Alumno> findByIdPersona(Integer id);
 }

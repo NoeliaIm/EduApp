@@ -57,6 +57,17 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
+    public Optional<AlumnoDTO> findByPersonaId(Integer id) {
+        Optional<Alumno> alumno = alumnoDao.findByIdPersona(id);
+
+        if (alumno.isPresent()) {
+            AlumnoDTO alumnoDTO = alumnoMapper.alumnoToAlumnoDTO(alumno.get());
+            return Optional.of(alumnoDTO);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     @Transactional
     public void createOrUpdateAlumno(AlumnoDTO alumnoDTO) {
 

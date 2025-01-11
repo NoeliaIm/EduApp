@@ -11,6 +11,8 @@ public interface AlumnoService {
 
     Optional<AlumnoDTO> findById(Integer id);
 
+    Optional<AlumnoDTO> findByPersonaId(Integer id);
+
     void deleteById(Integer id);
 
     void createOrUpdateAlumno(AlumnoDTO alumnoDTO);
