@@ -24,7 +24,7 @@ public class Asignatura {
     private String nombreAsignatura;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_curso", nullable = false)
     private Curso curso;

@@ -40,7 +40,7 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public List<AlumnoDTO> getAlumnosAll() {
-        List<Alumno> alumnoList = alumnoDao.findAll();
+        List<Alumno> alumnoList = alumnoDao.getAlumnosAnnioEncurso();
         alumnoList = alumnoList.stream().filter(alumno -> alumno.getPersona().getFechaBaja() == null).toList();
         return alumnoMapper.alumnosToAlumnosDTO(alumnoList);
     }
@@ -183,11 +183,6 @@ public class AlumnoServiceImpl implements AlumnoService {
                 );
             }
         }
-    }
-
-    @Override
-    public Alumno save(Alumno entity) {
-        return null;
     }
 
     @Override

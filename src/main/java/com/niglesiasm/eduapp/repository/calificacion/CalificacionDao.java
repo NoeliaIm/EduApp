@@ -4,7 +4,10 @@ import com.niglesiasm.eduapp.model.Calificacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface CalificacionDao extends JpaRepository<Calificacion, Long> {
+import java.util.List;
 
+@Repository
+public interface CalificacionDao extends JpaRepository<Calificacion, Integer> {
+
+    List<Calificacion> findByAlumnoId(Integer idAlumno);
 }

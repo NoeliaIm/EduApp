@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -20,10 +18,13 @@ public class Calificacion {
     @Column(name = "id_calificacion", nullable = false)
     private Integer id;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private AlumnoAsignatura alumnoAsignatura;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+    private Alumno alumno;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_asignatura", referencedColumnName = "id_asignatura")
+    private Asignatura asignatura;
 
     @NotNull
     @Column(name = "calificacion", nullable = false, precision = 5, scale = 2)

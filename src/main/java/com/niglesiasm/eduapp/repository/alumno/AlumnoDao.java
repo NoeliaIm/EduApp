@@ -1,11 +1,16 @@
 package com.niglesiasm.eduapp.repository.alumno;
 
 import com.niglesiasm.eduapp.model.Alumno;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 
-@Repository
-public interface AlumnoDao extends JpaRepository<Alumno, Integer> {
+public interface AlumnoDao {
 
+    List<Alumno> getAlumnosAnnioEncurso();
+
+    Optional<Alumno> findById(Integer id);
+
+    Alumno save(Alumno alumnoPersist);
 }

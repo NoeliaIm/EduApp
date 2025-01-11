@@ -16,7 +16,7 @@ public class Curso {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_anio", nullable = false)
     private AnnioAcademico idAnio;
 
