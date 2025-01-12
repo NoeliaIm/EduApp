@@ -127,7 +127,23 @@ public class AlumnoServiceImpl implements AlumnoService {
                 alumnoBBDD.setNumeroExpediente(alumnoActualizado.getNumeroExpediente());
                 alumnoBBDD.setNacionalidad(alumnoActualizado.getNacionalidad());
                 alumnoBBDD.setNecesidadesEspeciales(alumnoActualizado.getNecesidadesEspeciales());
-                alumnoBBDD.setAsignaturas(alumnoActualizado.getAsignaturas());
+                // Obtener las asignaturas actuales y nuevas
+                Set<Asignatura> asignaturasActuales = alumnoBBDD.getAsignaturas();
+                Set<Asignatura> asignaturasNuevas = alumnoActualizado.getAsignaturas();
+
+                // Encontrar asignaturas a eliminar (están en actuales pero no en nuevas)
+                Set<Asignatura> asignaturasAEliminar = new HashSet<>(asignaturasActuales);
+                asignaturasAEliminar.removeAll(asignaturasNuevas);
+
+                // Encontrar asignaturas a agregar (están en nuevas pero no en actuales)
+                Set<Asignatura> asignaturasAAgregar = new HashSet<>(asignaturasNuevas);
+                asignaturasAAgregar.removeAll(asignaturasActuales);
+
+                // Eliminar asignaturas que ya no están en el DTO
+                asignaturasActuales.removeAll(asignaturasAEliminar);
+
+                // Agregar nuevas asignaturas
+                asignaturasActuales.addAll(asignaturasAAgregar);
 
                 // Solo actualizar los datos modificables de la persona
                 personaBBDD.setNombre(alumnoDTO.getPersona().getNombre());
@@ -150,16 +166,10 @@ public class AlumnoServiceImpl implements AlumnoService {
 
                 // Manejar ámbitos
                 for (AlumnoAmbitoDTO ambitoDTO : alumnoDTO.getAmbitos()) {
-                    AlumnoAmbito ambitoExistente = alumnoBBDD.getAmbitos().stream()
-                            .filter(a -> a.getId().getAmbito().getId().equals(ambitoDTO.getAmbito().getIdAmbito()))
-                            .findFirst()
-                            .orElseThrow(() -> new IllegalStateException(
-                                    "No se encontró el ámbito " + ambitoDTO.getAmbito().getNombreAmbito() +
-                                            " para el alumno " + alumnoBBDD.getId()));
+                    AlumnoAmbito ambitoExistente = alumnoBBDD.getAmbitos().stream().filter(a -> a.getId().getAmbito().getId().equals(ambitoDTO.getAmbito().getIdAmbito())).findFirst().orElseThrow(() -> new IllegalStateException("No se encontró el ámbito " + ambitoDTO.getAmbito().getNombreAmbito() + " para el alumno " + alumnoBBDD.getId()));
 
                     if (!ambitoExistente.getNivelAcademico().getId().equals(ambitoDTO.getNivelAcademico().getIdNivelAcademico())) {
-                        ambitoExistente.setNivelAcademico(this.nivelAcademicoDao.getReferenceById(
-                                ambitoDTO.getNivelAcademico().getIdNivelAcademico()));
+                        ambitoExistente.setNivelAcademico(this.nivelAcademicoDao.getReferenceById(ambitoDTO.getNivelAcademico().getIdNivelAcademico()));
                     }
                 }
 
@@ -188,10 +198,7 @@ public class AlumnoServiceImpl implements AlumnoService {
             }
 
             if (!idiomasDuplicados.isEmpty()) {
-                throw new IllegalArgumentException(
-                        "No se puede añadir el mismo idioma más de una vez: " +
-                                String.join(", ", idiomasDuplicados)
-                );
+                throw new IllegalArgumentException("No se puede añadir el mismo idioma más de una vez: " + String.join(", ", idiomasDuplicados));
             }
         }
     }

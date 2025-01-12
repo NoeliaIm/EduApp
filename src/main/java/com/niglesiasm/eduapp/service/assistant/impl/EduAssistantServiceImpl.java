@@ -8,6 +8,8 @@ import com.niglesiasm.eduapp.service.alumnoasignatura.AlumnoAsignaturaService;
 import com.niglesiasm.eduapp.service.archivo.ArchivoService;
 import com.niglesiasm.eduapp.service.asignatura.AsignaturaDTO;
 import com.niglesiasm.eduapp.service.assistant.EduAssistantService;
+import com.niglesiasm.eduapp.service.assistant.PromptAdapter;
+import com.niglesiasm.eduapp.service.necesidadespecial.NecesidadEspecialDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -43,8 +45,17 @@ public class EduAssistantServiceImpl implements EduAssistantService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+        Integer idAlumno = null;
+        String finalPrompt = input;
+        Optional<AlumnoDTO> alumno = this.alumnoService.findByPersonaId(idPersona);
+        if (alumno.isPresent()) {
+            idAlumno = alumno.get().getId();
+            String necesidad = alumno.get().getNecesidadesEspeciales().stream().findFirst().map(NecesidadEspecialDTO::getNombreNecesidadEspecial).orElse("");
+            finalPrompt = PromptAdapter.adaptPrompt(input, necesidad);
+        }
+
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.add("input_message", input);
+        body.add("input_message", finalPrompt);
 
         if (file != null) {
             body.add("file", file.getResource());
@@ -62,8 +73,8 @@ public class EduAssistantServiceImpl implements EduAssistantService {
                 String.class
         );
 
-        if (response.getStatusCode().equals(HttpStatus.OK)) {
-            this.procesarPregunta(input, idPersona);
+        if (response.getStatusCode().equals(HttpStatus.OK) && idAlumno != null) {
+            this.procesarPregunta(input, idAlumno);
         }
         // Retornar la respuesta
         return response.getBody();
@@ -106,10 +117,9 @@ public class EduAssistantServiceImpl implements EduAssistantService {
     }
 
     @Transactional
-    protected void procesarPregunta(String pregunta, Integer idPersona) {
-        Optional<AlumnoDTO> alumno = this.alumnoService.findByPersonaId(idPersona);
+    protected void procesarPregunta(String pregunta, Integer idAlumno) {
+        Optional<AlumnoDTO> alumno = this.alumnoService.findById(idAlumno);
         if (alumno.isPresent()) {
-            Integer idAlumno = alumno.get().getId();
             List<String> asignaturas = alumno.get().getAsignaturas().stream().map(AsignaturaDTO::getNombreAsignatura).toList();
             String asignaturaClasificada = this.getClasificacion(pregunta, asignaturas);
             alumno.get().getAsignaturas().stream()
