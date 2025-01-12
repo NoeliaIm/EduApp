@@ -54,7 +54,7 @@ public class EduAssistantServiceImpl implements EduAssistantService {
                 new HttpEntity<>(body, headers);
 
         StringBuilder urlFlow = new StringBuilder();
-        urlFlow.append(BASE_URL + "run_langflow_historia");
+        urlFlow.append(BASE_URL + "run_langflow_chat");
 
         ResponseEntity<String> response = restTemplate.postForEntity(
                 urlFlow.toString(),
@@ -83,20 +83,26 @@ public class EduAssistantServiceImpl implements EduAssistantService {
         StringBuilder urlFlow = new StringBuilder();
         urlFlow.append(BASE_URL + "clasificar_pregunta");
 
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                urlFlow.toString(),
-                request,
-                String.class
-        );
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode responseJson = null;
         try {
+
+            ResponseEntity<String> response = restTemplate.postForEntity(
+                    urlFlow.toString(),
+                    request,
+                    String.class
+            );
+            if (!response.getStatusCode().equals(HttpStatus.OK)) {
+                return "";
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode responseJson = null;
+
             responseJson = mapper.readTree(response.getBody());
+            return responseJson.get("asignatura").asText();
         } catch (Exception e) {
             return "";
         }
-        return responseJson.get("asignatura").asText();
     }
 
     @Transactional
